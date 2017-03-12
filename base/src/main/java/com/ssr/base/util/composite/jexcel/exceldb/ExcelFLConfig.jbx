@@ -1,0 +1,25 @@
+[PropertyInfo]
+endCol,short,false,false, , ,true,<default>
+endstr,String,false,false, , ,true,<default>
+excelSqlIterator,java.util.Iterator,false,false, , ,true,<default>
+excelSqls,java.util.List,false,false, , ,false,<default>
+FLChildrenIterator,Iterator,false,false, , ,true,<default>
+flConfigChildren,java.util.List,false,false, , ,false,<default>
+form,boolean,false,false, , ,true,<default>
+id,String,false,false, , ,true,<default>
+justMemory,boolean,false,false, , ,false,<default>
+loopContenter,boolean,false,false, , ,true,<default>
+orgiSqls,String,false,false, , ,true,<default>
+orgProcedure,String,false,false, , ,false,<default>
+parent,ExcelFLConfig,false,false, , ,true,<default>
+parentForm,boolean,false,false, , ,true,<default>
+parsedProcedure,String,false,false, , ,false,<default>
+root,boolean,false,false, , ,true,<default>
+startCol,short,false,false, , ,true,<default>
+startRow,int,false,false, , ,true,<default>
+startStr,String,false,false, , ,true,<default>
+[IconNames]
+
+
+
+

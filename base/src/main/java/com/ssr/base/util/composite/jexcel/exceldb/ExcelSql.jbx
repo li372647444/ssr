@@ -1,0 +1,9 @@
+[PropertyInfo]
+fields,List,false,false, , ,false,<default>
+orgSql,String,false,false, , ,false,<default>
+parsedSql,String,false,false, , ,false,<default>
+[IconNames]
+
+
+
+

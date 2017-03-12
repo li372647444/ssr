@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <properties resource="config.properties"/>
+
+  <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+    <property name="beginningDelimiter" value="`"/>
+    <property name="endingDelimiter" value="`"/>
+    
+    <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+      <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+    </plugin>
+
+    <jdbcConnection driverClass="${jdbc.driverClass}"
+                    connectionURL="${jdbc.url}"
+                    userId="${jdbc.user}"
+                    password="${jdbc.password}">
+    </jdbcConnection>
+    <!--Java实体类目录-->
+    <javaModelGenerator targetPackage="com.ssr.console.model.config" targetProject="D:/src"/>
+    <!--Mapper类目录-->
+    <sqlMapGenerator targetPackage="resources.mapper.config"  targetProject="D:/src"/>
+    <!--Mapper配置文件目录-->
+    <javaClientGenerator targetPackage="com.ssr.console.mapper.config" targetProject="D:/src" type="XMLMAPPER" />
+    <!--扫描数据库表-->
+    <table tableName="DYNAMIC_TABLE_MANAGE" >
+    	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+    </table>
+    <table tableName="DYNAMIC_COLUMN_MANAGE" >
+    	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+    </table>
+  </context>
+</generatorConfiguration>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssr.console.mapper.dynamic.DynamicColumnManageMapper" >
+  <resultMap id="BaseResultMap" type="com.ssr.console.model.dynamic.DynamicColumnManage" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="column_name" property="columnName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="decimal_point" property="decimalPoint" jdbcType="INTEGER" />
+    <result column="is_autoincrement" property="isAutoincrement" jdbcType="BIT" />
+    <result column="is_primary_key" property="isPrimaryKey" jdbcType="BIT" />
+    <result column="length" property="length" jdbcType="INTEGER" />
+    <result column="nullable" property="nullable" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="table_id" property="tableId" jdbcType="INTEGER" />
+    <result column="type_for_mysql" property="typeForMysql" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>
