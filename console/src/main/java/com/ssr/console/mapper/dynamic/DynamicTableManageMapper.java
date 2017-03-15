@@ -10,5 +10,5 @@ public interface DynamicTableManageMapper extends Mapper<DynamicTableManage> {
 
 	public List<DynamicTableManage> selectDynamicTableManageByMap(Map<String, Object> paraMap);
 	
-	public void createNewDynamicTable(Map<String, Object> paraMap);
+	public void executeDDLSql(Map<String, Object> paraMap);
 }

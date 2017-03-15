@@ -78,7 +78,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         debug(sql.toString());
         Map<String, Object> paraMap = new HashMap<String, Object>();
         paraMap.put("sql", sql.toString());
-        dynamicTableManageMapper.createNewDynamicTable(paraMap);
+        dynamicTableManageMapper.executeDDLSql(paraMap);
 
         return dynamicTableManage;   
 	}
@@ -100,7 +100,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
 	}
 
 	@Override
-	public void updateDynamicTableManage(DynamicTableManage dynamicTableManage) {
+	public DynamicTableManage updateDynamicTableManage(DynamicTableManage dynamicTableManage) {
 		if(dynamicTableManage==null){
             throw new BusinessException("dynamicTableManage 不能为空.");
         }
@@ -124,20 +124,21 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         if(dynamicTableManage_db!=null && dynamicTableManage_db.getId() - dynamicTableManage.getId()!=0){
             throw new BusinessException(dynamicTableManage.getTableName()+"表已存！");
         }
-        dynamicTableManage_old.setTableName(dynamicTableManage.getTableName());//更新表名
-        dynamicTableManage_old.setRemark(dynamicTableManage.getRemark());//更新备注
-        dynamicTableManageMapper.updateByPrimaryKey(dynamicTableManage_old);
+        dynamicTableManageMapper.updateByPrimaryKeySelective(dynamicTableManage);
         
         String sql = "ALTER TABLE "+tableName_old+" COMMENT='"+ dynamicTableManage.getRemark() +"'";
         
-        dynamicTableManageMapper.
-        baseDaoRepository.update(sql);
+        Map<String, Object> paraMap = new HashMap<String, Object>();
+        paraMap.put("sql", sql.toString());
+        dynamicTableManageMapper.executeDDLSql(paraMap);
         try{
             sql = "ALTER TABLE " + tableName_old +" rename "+dynamicTableManage.getTableName();
-            baseDaoRepository.update(sql);
+            paraMap.put("sql", sql.toString());
+            dynamicTableManageMapper.executeDDLSql(paraMap);
         }catch (Exception e){//修改表结构，事务无法还原！须抓捕异常，人为还原。
             sql = "ALTER TABLE "+tableName_old+" COMMENT='"+ remark_old +"'";
-            baseDaoRepository.update(sql);
+            paraMap.put("sql", sql.toString());
+            dynamicTableManageMapper.executeDDLSql(paraMap);
             throw new BusinessException("更新数据库表名失败!");
         }
         return  dynamicTableManage;

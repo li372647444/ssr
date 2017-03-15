@@ -13,10 +13,10 @@ public interface DynamicTableManageService extends BaseService{
 	public DynamicTableManage queryByModel(DynamicTableManage dynamicTableManage);
 	public List<DynamicTableManage> queryDynamicTableManageByMap(Map<String, Object> requestParameterAsMap, int page,int pageSize);
 	
-	
 	/**
 	 * 修改 动态表 记录 （修改表记录）   （修改表名、修改注释）
 	 * @param dynamicTableManage
+	 * @return
 	 */
-	public void updateDynamicTableManage(DynamicTableManage dynamicTableManage);
+	public DynamicTableManage updateDynamicTableManage(DynamicTableManage dynamicTableManage);
 }

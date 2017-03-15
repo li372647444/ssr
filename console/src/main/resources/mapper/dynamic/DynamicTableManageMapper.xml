@@ -20,7 +20,7 @@
     </where>
   </select>
   
-  <update id="createNewDynamicTable" parameterType="java.lang.String">
+  <update id="executeDDLSql" parameterType="java.lang.String">
   	${sql}
   </update>
 </mapper>
