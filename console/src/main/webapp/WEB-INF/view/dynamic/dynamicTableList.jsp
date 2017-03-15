@@ -119,7 +119,8 @@ $(function() {
 				sortable: false,
 				render: function(val,row,index){
 					var html = "<a href='<%=request.getContextPath()%>/dynamic/updateDynamicTable/"+row.id+"'>动态表修改</a>";
-			    	return html;
+					html += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deleteRow("+row.id+")'>动态表删除</a>";
+					return html;
 				}
 			}
 		],
@@ -140,5 +141,27 @@ function onReset(){
 function onNew(){
 	window.location.href="<%=request.getContextPath()%>/dynamic/addDynamicTable";
 }
+function deleteRow(id){
+	bootbox.confirm("确定删除信息吗？", function(result) {
+		if (result) {  
+			 $.ajax({
+		        type	: 'post',
+		        url		: "<%=request.getContextPath()%>/dynamic/deleteDynamicTable/"+id+"",
+		        success : function(data) {
+		        	if(data.success == false || data.message){
+	                	bootbox.alert(data.errorMessage);
+		            } else {
+		            	bootbox.alert("提交成功");
+		            	onSubmit();
+		            }
+		  		}, 
+		  		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		            bootbox.alert(XMLHttpRequest.responseText);
+		  		}
+	        });
+        }
+	});
+}
+
 </script>
 </html>

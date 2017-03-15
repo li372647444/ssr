@@ -75,6 +75,18 @@ public class DynamicTableController extends BaseController {
 		return re;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Right(id = "SSR_C_DYNAMIC_DELETEDYNAMICTABLE_POST", name = "删除表", 
+			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
+	@RequestMapping(value = "/deleteDynamicTable/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteDynamicTable(@PathVariable int id) throws Exception{
+		dynamicTableManageService.deleteDynamicTableManage(id);
+		AjaxSupport re = new AjaxSupport();
+		re.setModel(true);
+		return re;
+	}
+	
 	@Right(id = "SSR_C_DYNAMIC__DYNAMICTABLELIST_POST", name = "表列表", 
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/dynamicTableList", method = RequestMethod.POST)

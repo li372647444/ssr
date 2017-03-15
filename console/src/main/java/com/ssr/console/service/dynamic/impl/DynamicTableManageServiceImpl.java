@@ -143,4 +143,34 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         }
         return  dynamicTableManage;
 	}
+
+	@Override
+	public void deleteDynamicTableManage(Integer id) {
+		if(id == null ){
+            throw new BusinessException("The parameter (id) must not be null.");
+        }
+        //删除动态表的列 记录信息
+		DynamicColumnManage query = new DynamicColumnManage();
+		query.setTableId(id);
+        List<DynamicColumnManage> dynamicColumnManages = dynamicColumnManageMapper.select(query);
+        if(dynamicColumnManages!=null && dynamicColumnManages.size()>0){
+        	for(DynamicColumnManage c:dynamicColumnManages){
+        		dynamicColumnManageMapper.deleteByPrimaryKey(c.getId());
+        	}
+        }
+
+        //删除动态表 记录
+        DynamicTableManage dynamicTableManage = dynamicTableManageMapper.selectByPrimaryKey(id);
+        if(dynamicTableManage == null){
+            throw new BusinessException("删除表 记录已不存在！");
+        }
+        String tableName = dynamicTableManage.getTableName();
+        dynamicTableManageMapper.deleteByPrimaryKey(id);
+
+        //删除 动态表 结构
+        String sql = "DROP TABLE IF EXISTS " + tableName;
+        Map<String, Object> paraMap = new HashMap<String, Object>();
+        paraMap.put("sql", sql.toString());
+        dynamicTableManageMapper.executeDDLSql(paraMap);
+	}
 }

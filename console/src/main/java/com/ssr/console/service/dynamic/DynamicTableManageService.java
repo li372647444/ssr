@@ -19,4 +19,10 @@ public interface DynamicTableManageService extends BaseService{
 	 * @return
 	 */
 	public DynamicTableManage updateDynamicTableManage(DynamicTableManage dynamicTableManage);
+	
+	/**
+	 *  删除 动态表记录 （删除表记录） 删除表
+	 * @param dynamicTableManage
+	 */
+	public void deleteDynamicTableManage(Integer dynamicTableManage);
 }
