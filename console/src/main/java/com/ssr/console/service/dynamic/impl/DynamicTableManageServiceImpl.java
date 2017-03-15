@@ -30,7 +30,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
 		return dynamicTableManageMapper.selectByPrimaryKey(id);
 	}
 	
-	public DynamicTableManage saveDynamicTableManage(DynamicTableManage dynamicTableManage, boolean saveSelective) {
+	public DynamicTableManage saveDynamicTableManage(DynamicTableManage dynamicTableManage) {
 		if(dynamicTableManage == null){
             throw new BusinessException("The parameter (dynamicTableManage) must not be null.");
         }
@@ -97,5 +97,49 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
 
 	public DynamicTableManage queryByModel(DynamicTableManage dynamicTableManage){
 		return dynamicTableManageMapper.selectOne(dynamicTableManage);
+	}
+
+	@Override
+	public void updateDynamicTableManage(DynamicTableManage dynamicTableManage) {
+		if(dynamicTableManage==null){
+            throw new BusinessException("dynamicTableManage 不能为空.");
+        }
+        if(dynamicTableManage.getId() == null ){
+            throw new BusinessException("id不能为空.");
+        }
+        if(dynamicTableManage.getTableName() == null ){
+            throw new BusinessException("表名不能为空.");
+        }
+        //原表
+        DynamicTableManage dynamicTableManage_old = dynamicTableManageMapper.selectByPrimaryKey(dynamicTableManage.getId());
+        if(dynamicTableManage_old == null){
+            throw new BusinessException("表 记录已不存在！");
+        }
+        String tableName_old = dynamicTableManage_old.getTableName();
+        String remark_old = dynamicTableManage_old.getRemark();
+        //判断新表名是否已存在
+        DynamicTableManage query = new DynamicTableManage();
+        query.setTableName(dynamicTableManage.getTableName());
+        DynamicTableManage dynamicTableManage_db = dynamicTableManageMapper.selectOne(query);
+        if(dynamicTableManage_db!=null && dynamicTableManage_db.getId() - dynamicTableManage.getId()!=0){
+            throw new BusinessException(dynamicTableManage.getTableName()+"表已存！");
+        }
+        dynamicTableManage_old.setTableName(dynamicTableManage.getTableName());//更新表名
+        dynamicTableManage_old.setRemark(dynamicTableManage.getRemark());//更新备注
+        dynamicTableManageMapper.updateByPrimaryKey(dynamicTableManage_old);
+        
+        String sql = "ALTER TABLE "+tableName_old+" COMMENT='"+ dynamicTableManage.getRemark() +"'";
+        
+        dynamicTableManageMapper.
+        baseDaoRepository.update(sql);
+        try{
+            sql = "ALTER TABLE " + tableName_old +" rename "+dynamicTableManage.getTableName();
+            baseDaoRepository.update(sql);
+        }catch (Exception e){//修改表结构，事务无法还原！须抓捕异常，人为还原。
+            sql = "ALTER TABLE "+tableName_old+" COMMENT='"+ remark_old +"'";
+            baseDaoRepository.update(sql);
+            throw new BusinessException("更新数据库表名失败!");
+        }
+        return  dynamicTableManage;
 	}
 }

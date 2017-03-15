@@ -9,7 +9,14 @@ import com.ssr.console.model.dynamic.DynamicTableManage;
 public interface DynamicTableManageService extends BaseService{
 	public DynamicTableManage queryDynamicTableManageById(Object id);
 	public List<DynamicTableManage> queryDynamicTableManageByPage(DynamicTableManage dynamicTableManage, int page, int pageSize);
-	public DynamicTableManage saveDynamicTableManage(DynamicTableManage dynamicTableManage, boolean saveSelective);
+	public DynamicTableManage saveDynamicTableManage(DynamicTableManage dynamicTableManage);
 	public DynamicTableManage queryByModel(DynamicTableManage dynamicTableManage);
 	public List<DynamicTableManage> queryDynamicTableManageByMap(Map<String, Object> requestParameterAsMap, int page,int pageSize);
+	
+	
+	/**
+	 * 修改 动态表 记录 （修改表记录）   （修改表名、修改注释）
+	 * @param dynamicTableManage
+	 */
+	public void updateDynamicTableManage(DynamicTableManage dynamicTableManage);
 }

@@ -48,7 +48,7 @@ public class DynamicTableController extends BaseController {
 	@ResponseBody
 	public Object addDynamicTable(DynamicTableManage dynamicTableManage) throws Exception{
 		dynamicTableManage.setCreateTime(new Date());
-		dynamicTableManageService.saveDynamicTableManage(dynamicTableManage, true);
+		dynamicTableManageService.saveDynamicTableManage(dynamicTableManage);
 		AjaxSupport<DynamicTableManage> re = new AjaxSupport<DynamicTableManage>();
 		re.setModel(dynamicTableManage);
 		return re;
@@ -69,7 +69,7 @@ public class DynamicTableController extends BaseController {
 	@RequestMapping(value = "/updateDynamicTable", method = RequestMethod.POST)
 	@ResponseBody
 	public Object updateDynamicTable(DynamicTableManage dynamicTableManage) throws Exception{
-		dynamicTableManageService.saveDynamicTableManage(dynamicTableManage, true);
+		dynamicTableManageService.updateDynamicTableManage(dynamicTableManage);
 		AjaxSupport<DynamicTableManage> re = new AjaxSupport<DynamicTableManage>();
 		re.setModel(dynamicTableManage);
 		return re;
