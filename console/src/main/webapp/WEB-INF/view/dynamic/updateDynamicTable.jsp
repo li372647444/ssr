@@ -27,7 +27,7 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="<%=request.getContextPath()%>/dynamic/updateSysUser/${user.id}">用户修改</a>
+						<a href="<%=request.getContextPath()%>/dynamic/updateDynamicTable/${dynamicTableManage.id}">动态表修改</a>
 					</li>
 				</ul>
 			</div>
@@ -39,64 +39,25 @@
 						<div class="portlet-title">
 							<div class="caption font-green-haze">
 								<i class="icon-user font-green-haze"></i>
-								<span class="caption-subject bold uppercase">用户修改</span>
+								<span class="caption-subject bold uppercase">动态表修改</span>
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form id="form" role="form" class="form-horizontal" action="<%=request.getContextPath()%>/system/updateSysUser" method="POST">
+							<form id="form" role="form" class="form-horizontal" action="<%=request.getContextPath()%>/dynamic/updateDynamicTable" method="POST">
 								<input type="hidden" id="id" name="id">
 								<div class="form-body">
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="loginName">登录账号<span style="color:red;">*</span></label>
+										<label class="col-md-2 control-label" for="tableName">表名<span style="color:red;">*</span></label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" required id="loginName" name="loginName" placeholder="请输入登录账号">
+											<input type="text" class="form-control" required id="tableName" name="tableName" placeholder="请输入表名">
 											<div class="form-control-focus">
 											</div>
 										</div>
 									</div>
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="name">用户姓名<span style="color:red;">*</span></label>
+										<label class="col-md-2 control-label" for="remark">描述<span style="color:red;">*</span></label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" required id="name" name="name" placeholder="请输入用户姓名">
-											<div class="form-control-focus">
-											</div>
-										</div>
-									</div>
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="loginPassword">用户密码<span style="color:red;">*</span></label>
-										<div class="col-md-10">
-											<input type="password" class="form-control" id="loginPassword" required name="loginPassword" placeholder="请输入密码">
-											<div class="form-control-focus">
-											</div>
-										</div>
-									</div>
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="loginPasswordAgain">确认密码<span style="color:red;">*</span></label>
-										<div class="col-md-10">
-											<input type="password" class="form-control" required id="loginPasswordAgain" name="loginPasswordAgain" placeholder="请确认密码">
-											<div class="form-control-focus">
-											</div>
-										</div>
-									</div>
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="roleId">用户角色<span style="color:red;">*</span></label>
-										<div class="col-md-10">
-											<select class="form-control" required id="roleId" name="roleId">
-												<c:forEach items="${roles}" var="role">
-													<option value="${role.id}">${role.name}</option>
-												</c:forEach>
-											</select>
-											<div class="form-control-focus">
-											</div>
-										</div>
-									</div>
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="state">用户状态<span style="color:red;">*</span></label>
-										<div class="col-md-10">
-											<select class="form-control" required id="state" name="state">
-												<option value="QY">启用</option>
-												<option value="TY">停用</option>
-											</select>
+											<input type="text" class="form-control" required id="remark" name="remark" placeholder="请输入描述">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -128,37 +89,24 @@ $(function() {
 	Metronic.init();
 	Layout.init();
 	QuickSidebar.init();
-	initMenu("_system_sysUserList");
+	initMenu("_dynamic_dynamicTableList");
 	loadFrom("form", {
-		id:'${user.id}',
-		loginName:'${user.loginName}',
-		name:'${user.name}',
-		customerId:'${customerId}',
-		roleId:'${roleId}',
-		state:'${user.state}'
+		id:'${dynamicTableManage.id}',
+		tableName:'${dynamicTableManage.tableName}',
+		remark:'${dynamicTableManage.remark}'
 	});
 });
 function onSubmit(){
 	if(!validateForm("form")){
 		return;
 	}
-	var lp = $("#loginPassword").val();
-	var lpv = $("#loginPasswordAgain").val();
-	if(lp != lpv){
-		bootbox.alert("密码不一致!", function(){
-			$("#loginPassword").val("");
-			$("#loginPasswordAgain").val("");
-		});
-	}
-	else{
-		submitForm("form", "submit", "", "id");
-	}
+	submitForm("form", "submit", "", "id");
 }
 function onReset(){
 	resetForm("form");
 }
 function onBack(){
-	window.location.href="<%=request.getContextPath()%>/system/sysUserList";
+	window.location.href="<%=request.getContextPath()%>/dynamic/dynamicTableList";
 }
 </script>
 </html>

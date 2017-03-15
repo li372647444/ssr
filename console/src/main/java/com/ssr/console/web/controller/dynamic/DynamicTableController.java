@@ -54,7 +54,7 @@ public class DynamicTableController extends BaseController {
 		return re;
 	}
 	
-	@Right(id = "SSR_C_DYNAMIC_UPDATEDYNAMICTABLE_PAGE", name = "更新表",
+	@Right(id = "SSR_C_DYNAMIC_UPDATEDYNAMICTABLE_PAGE", name = "更新表页面",
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/updateDynamicTable/{id}", method = RequestMethod.GET)
 	public ModelAndView updateDynamicTable(@PathVariable int id){

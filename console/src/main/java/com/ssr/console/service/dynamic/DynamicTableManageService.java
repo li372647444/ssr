@@ -9,7 +9,7 @@ import com.ssr.console.model.dynamic.DynamicTableManage;
 public interface DynamicTableManageService extends BaseService{
 	public DynamicTableManage queryDynamicTableManageById(Object id);
 	public List<DynamicTableManage> queryDynamicTableManageByPage(DynamicTableManage dynamicTableManage, int page, int pageSize);
-	public int saveDynamicTableManage(DynamicTableManage dynamicTableManage, boolean saveSelective);
+	public DynamicTableManage saveDynamicTableManage(DynamicTableManage dynamicTableManage, boolean saveSelective);
 	public DynamicTableManage queryByModel(DynamicTableManage dynamicTableManage);
 	public List<DynamicTableManage> queryDynamicTableManageByMap(Map<String, Object> requestParameterAsMap, int page,int pageSize);
 }

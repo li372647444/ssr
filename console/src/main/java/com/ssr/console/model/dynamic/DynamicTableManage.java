@@ -122,4 +122,5 @@ public class DynamicTableManage {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+
 }
