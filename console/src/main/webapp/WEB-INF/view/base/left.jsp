@@ -27,20 +27,11 @@
             <c:forEach items="${sessionScope.session_menu}" var="module">
 			<li>
 				<a href="javascript:;">
-				<c:if test="${module.value.id=='CMCU_C_SYS'}">
+				<c:if test="${module.value.id=='SSR_C_SYS'}">
 				<i class="icon-user"></i>
 				</c:if>
-                <c:if test="${module.value.id=='CMCU_C_CNF'}">
+				<c:if test="${module.value.id=='SSR_C_DYNAMIC'}">
 				<i class="icon-settings"></i>
-				</c:if>
-				<c:if test="${module.value.id=='CMCU_C_DATA'}">
-				<i class="icon-docs"></i>
-				</c:if>
-				<c:if test="${module.value.id=='CMCU_C_ENERGY'}">
-				<i class="icon-energy"></i>
-				</c:if>
-				<c:if test="${module.value.id=='CMCU_C_ASSET'}">
-				<i class="icon-wallet"></i>
 				</c:if>
                 <span class="title">${module.value.name}</span>
                 <span class="arrow"></span>
