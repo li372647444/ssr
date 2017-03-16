@@ -23,7 +23,11 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="<%=request.getContextPath()%>/system/dynamicTableList">动态表管理</a>
+						<a href="<%=request.getContextPath()%>/dynamic/dynamicTableList">动态表管理</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="<%=request.getContextPath()%>/dynamic/dynamicColumnList/${dynamicTableManage.id}">${dynamicTableManage.tableName}表的列修改</a>
 					</li>
 				</ul>
 			</div>
@@ -41,9 +45,9 @@
 							<form id="form" class="form-horizontal">
 								<div class="form-body">
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="tableName">表名</label>
+										<label class="col-md-2 control-label" for="columnName">列名</label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" id="tableName" name="tableName" placeholder="请输入表名">
+											<input type="text" class="form-control" id="columnName" name="columnName" placeholder="请输入列名">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -65,7 +69,7 @@
 					<div class="portlet box green">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-cogs"></i>动态表列表
+								<i class="fa fa-cogs"></i>动态列的列表
 							</div>
 							<div class="tools">
 							</div>
@@ -95,8 +99,8 @@ $(function() {
 	var dataSource = new girdDataSource({
 		columns: [
 			{
-				property: 'tableName',
-				label: '表名',
+				property: 'columnName',
+				label: '列名',
 				align: 'center',
 				sortable: false
 			},
@@ -113,41 +117,98 @@ $(function() {
 				sortable: false
 			},
 			{
+				property: 'decimalPoint',
+				label: '小数点',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'isAutoincrement',
+				label: '是否自动递增',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
+				property: 'isPrimaryKey',
+				label: '是否为主键',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
+				property: 'length',
+				label: '长度',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'nullable',
+				label: '是否为空',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
+				property: 'typeForMysql',
+				label: 'Mysql 数据库 列  类型',
+				align: 'center',
+				sortable: false
+			},
+			{
 				property: 'opt',
 				label: '操作',
 				align: 'center',
 				sortable: false,
 				render: function(val,row,index){
-					var html = "<a href='<%=request.getContextPath()%>/dynamic/updateDynamicTable/"+row.id+"'>修改表名</a>";
-					html += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='<%=request.getContextPath()%>/dynamic/dynamicColumnList/"+row.id+"'>修改列</a>";
-					html += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deleteRow("+row.id+")'>删除表</a>";
+					var html = "";
+					if(row.isPrimaryKey!=true){
+						html = "<a href='<%=request.getContextPath()%>/dynamic/updateDynamicColumn/"+row.id+"'>修改列</a>";
+						html += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deleteRow("+row.id+")'>删除列</a>";
+					}
 					return html;
 				}
 			}
 		],
 		loadFromServer: true,
-		data: "<%=request.getContextPath()%>/dynamic/dynamicTableList"
+		data: "<%=request.getContextPath()%>/dynamic/dynamicColumnList?tableId=${dynamicTableManage.id}"
 	});
 	$("#grid").datagrid({dataSource: dataSource});
 });
 function onSubmit(){
-	var tableName = $('#tableName').val();
+	var columnName = $('#columnName').val();
 	$('#grid').datagrid('reload',{
-		tableName: tableName
+		tableId:'${dynamicTableManage.id}',
+		columnName: columnName
     });
 }
 function onReset(){
 	resetForm("form");
 }
 function onNew(){
-	window.location.href="<%=request.getContextPath()%>/dynamic/addDynamicTable";
+	window.location.href="<%=request.getContextPath()%>/dynamic/addDynamicColumn/${dynamicTableManage.id}";
 }
 function deleteRow(id){
 	bootbox.confirm("确定删除信息吗？", function(result) {
 		if (result) {  
 			 $.ajax({
 		        type	: 'post',
-		        url		: "<%=request.getContextPath()%>/dynamic/deleteDynamicTable/"+id+"",
+		        url		: "<%=request.getContextPath()%>/dynamic/deleteDynamicColumn/"+id+"",
 		        success : function(data) {
 		        	if(data.success == false || data.message){
 	                	bootbox.alert(data.errorMessage);

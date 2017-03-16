@@ -47,8 +47,12 @@ public class DynamicTableController extends BaseController {
 	@RequestMapping(value = "/addDynamicTable", method = RequestMethod.POST)
 	@ResponseBody
 	public Object addDynamicTable(DynamicTableManage dynamicTableManage) throws Exception{
-		dynamicTableManage.setCreateTime(new Date());
-		dynamicTableManageService.saveDynamicTableManage(dynamicTableManage);
+		if(dynamicTableManage.getId()!=null){//修改
+			dynamicTableManageService.updateDynamicTableManage(dynamicTableManage);
+		} else {//新增
+			dynamicTableManage.setCreateTime(new Date());
+			dynamicTableManageService.saveDynamicTableManage(dynamicTableManage);
+		}
 		AjaxSupport<DynamicTableManage> re = new AjaxSupport<DynamicTableManage>();
 		re.setModel(dynamicTableManage);
 		return re;

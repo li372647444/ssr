@@ -49,8 +49,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         //插入表 记录
         Date now = new Date();
         dynamicTableManage.setCreateTime(now);
-        int dynamicTableManageId = dynamicTableManageMapper.insertSelective(dynamicTableManage);
-        dynamicTableManage.setId(dynamicTableManageId);
+        dynamicTableManageMapper.insert(dynamicTableManage);
         //插入列记录
         DynamicColumnManage idColumn = new DynamicColumnManage();
         idColumn.setTableId(dynamicTableManage.getId());
@@ -63,7 +62,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         idColumn.setIsAutoincrement(true);
         idColumn.setRemark("主键Id 系统新增表时自动添加");
         idColumn.setCreateTime(now);
-        int idColumnId = dynamicColumnManageMapper.insertSelective(idColumn);
+        int idColumnId = dynamicColumnManageMapper.insert(idColumn);
         idColumn.setId(idColumnId);
         //更新关联
         dynamicTableManage.setPrimaryKeyColumnId(idColumn.getId());
@@ -111,6 +110,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
             throw new BusinessException("表名不能为空.");
         }
         //原表
+        System.out.println(dynamicTableManage.getId());
         DynamicTableManage dynamicTableManage_old = dynamicTableManageMapper.selectByPrimaryKey(dynamicTableManage.getId());
         if(dynamicTableManage_old == null){
             throw new BusinessException("表 记录已不存在！");

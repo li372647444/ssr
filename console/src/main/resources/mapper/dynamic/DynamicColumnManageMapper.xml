@@ -17,4 +17,14 @@
     <result column="table_id" property="tableId" jdbcType="INTEGER" />
     <result column="type_for_mysql" property="typeForMysql" jdbcType="VARCHAR" />
   </resultMap>
+   <select id="selectDynamicColumnManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT id,column_name,create_time,decimal_point,is_autoincrement,is_primary_key,length,nullable,remark,table_id,type_for_mysql
+     FROM DYNAMIC_COLUMN_MANAGE
+    <where>
+        table_id = #{tableId}
+      <if test="columnName!=null and columnName!=''">
+        and column_name like CONCAT('%',#{columnName},'%')
+      </if>
+    </where>
+  </select>
 </mapper>
