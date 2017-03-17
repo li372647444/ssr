@@ -154,7 +154,7 @@ $(function() {
 			},
 			{
 				property: 'nullable',
-				label: '是否为空',
+				label: '是否可为空',
 				align: 'center',
 				sortable: false,
 				render: function(val,row,index){

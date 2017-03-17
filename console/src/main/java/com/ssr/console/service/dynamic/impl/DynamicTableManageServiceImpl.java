@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.ssr.base.exception.BusinessException;
 import com.ssr.base.service.impl.BaseServiceImpl;
-import com.ssr.base.util.constant.C_MsqlColumnType;
+import com.ssr.base.util.constant.C_MysqlColumnType;
 import com.ssr.console.mapper.dynamic.DynamicColumnManageMapper;
 import com.ssr.console.mapper.dynamic.DynamicTableManageMapper;
 import com.ssr.console.model.dynamic.DynamicColumnManage;
@@ -54,7 +54,7 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         DynamicColumnManage idColumn = new DynamicColumnManage();
         idColumn.setTableId(dynamicTableManage.getId());
         idColumn.setColumnName("id");
-        idColumn.setTypeForMysql(C_MsqlColumnType.INTEGER);
+        idColumn.setTypeForMysql(C_MysqlColumnType.INTEGER);
         idColumn.setLength(10);
         //以下3条必须如下设置
         idColumn.setNullable(false);

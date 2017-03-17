@@ -23,7 +23,7 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="<%=request.getContextPath()%>/system/dynamicTableList">动态表管理</a>
+						<a href="<%=request.getContextPath()%>/dynamic/dynamicTableList">动态表管理</a>
 					</li>
 				</ul>
 			</div>

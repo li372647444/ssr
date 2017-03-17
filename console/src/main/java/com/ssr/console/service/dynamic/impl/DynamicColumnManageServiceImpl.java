@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.ssr.base.exception.BusinessException;
 import com.ssr.base.service.impl.BaseServiceImpl;
-import com.ssr.base.util.constant.C_MsqlColumnType;
+import com.ssr.base.util.constant.C_MysqlColumnType;
 import com.ssr.console.mapper.dynamic.DynamicColumnManageMapper;
 import com.ssr.console.mapper.dynamic.DynamicTableManageMapper;
 import com.ssr.console.model.dynamic.DynamicColumnManage;
@@ -82,17 +82,23 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
                 && (dynamicColumnManages.get(0).getId() - dynamicColumnManage.getId()!=0)){
             throw new BusinessException(dynamicColumnManage.getColumnName()+"列已存！");
         }
-        dynamicColumnManageMapper.insert(dynamicColumnManage);
+        if(dynamicColumnManage.getIsAutoincrement()==null){
+			dynamicColumnManage.setIsAutoincrement(false);
+		}
+		if(dynamicColumnManage.getIsPrimaryKey()==null){
+			dynamicColumnManage.setIsPrimaryKey(false);
+		}
+        dynamicColumnManageMapper.updateByPrimaryKey(dynamicColumnManage);
 
         String sql = "ALTER TABLE "+ tableName +" CHANGE COLUMN "+ columnName_old +" "+ dynamicColumnManage.getColumnName() +" ";
         //类型 与 长度
-        if(C_MsqlColumnType.INTEGER.equals(dynamicColumnManage.getTypeForMysql())){
+        if(C_MysqlColumnType.INTEGER.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +(dynamicColumnManage.getDecimalPoint()==null?"":","+dynamicColumnManage.getDecimalPoint())+")";
-        } else if(C_MsqlColumnType.VARCHAR.equals(dynamicColumnManage.getTypeForMysql())){
+        } else if(C_MysqlColumnType.VARCHAR.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +")";
-        } else if(C_MsqlColumnType.DOUBLE.equals(dynamicColumnManage.getTypeForMysql())){
+        } else if(C_MysqlColumnType.DOUBLE.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +(dynamicColumnManage.getDecimalPoint()==null?"0":","+dynamicColumnManage.getDecimalPoint())+")";
-        } else if(C_MsqlColumnType.DATETIME.equals(dynamicColumnManage.getTypeForMysql())){
+        } else if(C_MysqlColumnType.DATETIME.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql();
         } else {
             throw new BusinessException("未知列类型!");
@@ -143,19 +149,25 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         }
         //插入列记录
         dynamicColumnManage.setCreateTime(new Date());
+        if(dynamicColumnManage.getIsAutoincrement()==null){
+			dynamicColumnManage.setIsAutoincrement(false);
+		}
+		if(dynamicColumnManage.getIsPrimaryKey()==null){
+			dynamicColumnManage.setIsPrimaryKey(false);
+		}
         dynamicColumnManageMapper.insert(dynamicColumnManage);
 
         //创建列
         String tableName = dynamicTableManage.getTableName();
         String sql = "ALTER TABLE "+ tableName +" ADD COLUMN "+ dynamicColumnManage.getColumnName() +" ";
         //类型 与 长度
-        if(C_MsqlColumnType.INTEGER.equals(dynamicColumnManage.getTypeForMysql())){
+        if(C_MysqlColumnType.INTEGER.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +(dynamicColumnManage.getDecimalPoint()==null?"":","+dynamicColumnManage.getDecimalPoint())+")";
-        } else if(C_MsqlColumnType.VARCHAR.equals(dynamicColumnManage.getTypeForMysql())){
+        } else if(C_MysqlColumnType.VARCHAR.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +")";
-        } else if(C_MsqlColumnType.DOUBLE.equals(dynamicColumnManage.getTypeForMysql())){
+        } else if(C_MysqlColumnType.DOUBLE.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +(dynamicColumnManage.getDecimalPoint()==null?"0":","+dynamicColumnManage.getDecimalPoint())+")";
-        } else if(C_MsqlColumnType.DATETIME.equals(dynamicColumnManage.getTypeForMysql())){
+        } else if(C_MysqlColumnType.DATETIME.equals(dynamicColumnManage.getTypeForMysql())){
             sql += dynamicColumnManage.getTypeForMysql();
         } else {
             throw new BusinessException("未知列类型！");

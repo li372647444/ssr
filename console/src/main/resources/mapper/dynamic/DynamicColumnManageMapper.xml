@@ -23,7 +23,7 @@
     <where>
         table_id = #{tableId}
       <if test="columnName!=null and columnName!=''">
-        and column_name like CONCAT('%',#{columnName},'%')
+        and column_name = #{columnName}
       </if>
     </where>
   </select>
