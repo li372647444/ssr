@@ -33,6 +33,9 @@
 				<c:if test="${module.value.id=='SSR_C_DYNAMIC'}">
 				<i class="icon-settings"></i>
 				</c:if>
+				<c:if test="${module.value.id=='SSR_C_MANAGE'}">
+				<i class="icon-settings"></i>
+				</c:if>
                 <span class="title">${module.value.name}</span>
                 <span class="arrow"></span>
                 <span></span>
