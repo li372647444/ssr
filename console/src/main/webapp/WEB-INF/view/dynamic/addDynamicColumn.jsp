@@ -139,10 +139,10 @@ $(function() {
 	});
 	$("#typeForMysql").change(function(){
 		var value = $(this).val();
-		if("integer"==value || "varchar"==value	|| "text"==value){//长度启用，小数点数禁用
+		if("integer"==value || "varchar"==value){//长度启用，小数点数禁用
 			disableAndRequiredControl("length",false,true);
 			disableAndRequiredControl("decimalPoint",true,false);
-		} else if("datetime"==value || "date"==value || "blob"==value){//长度和小数点数都禁用
+		} else if("datetime"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数都禁用
 			disableAndRequiredControl("length",true,false);
 			disableAndRequiredControl("decimalPoint",true,false);
 		} else if("double"==value || "decimal"==value){//长度和小数点数都启用
@@ -169,6 +169,10 @@ function disableAndRequiredControl(buttonId, disable,required) {
     }
 }
 function onSubmit(){
+	if("enum"==$("#typeForMysql").val()){
+		bootbox.alert("该类型暂不支持！");
+		return;
+	}
 	if(!validateForm("form")){
 		return;
 	}

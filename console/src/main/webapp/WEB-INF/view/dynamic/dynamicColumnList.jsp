@@ -105,14 +105,14 @@ $(function() {
 				sortable: false
 			},
 			{
-				property: 'remark',
-				label: '描述',
+				property: 'typeForMysql',
+				label: 'Mysql 数据库 列  类型',
 				align: 'center',
 				sortable: false
 			},
 			{
-				property: 'createTime',
-				label: '创建时间',
+				property: 'length',
+				label: '长度',
 				align: 'center',
 				sortable: false
 			},
@@ -121,6 +121,18 @@ $(function() {
 				label: '小数点',
 				align: 'center',
 				sortable: false
+			},
+			{
+				property: 'nullable',
+				label: '是否可为空',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "<span style='color:red;'>否</span>";
+				}
 			},
 			{
 				property: 'isAutoincrement',
@@ -147,26 +159,14 @@ $(function() {
 				}
 			},
 			{
-				property: 'length',
-				label: '长度',
+				property: 'remark',
+				label: '描述',
 				align: 'center',
 				sortable: false
 			},
 			{
-				property: 'nullable',
-				label: '是否可为空',
-				align: 'center',
-				sortable: false,
-				render: function(val,row,index){
-					if(val==true){
-						return "是";
-					}
-					return "否";
-				}
-			},
-			{
-				property: 'typeForMysql',
-				label: 'Mysql 数据库 列  类型',
+				property: 'createTime',
+				label: '创建时间',
 				align: 'center',
 				sortable: false
 			},
