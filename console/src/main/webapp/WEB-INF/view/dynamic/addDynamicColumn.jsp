@@ -82,7 +82,7 @@
 									<div class="form-group form-md-line-input">
 										<label class="col-md-2 control-label" for="decimalPoint">小数点数<span style="color:red;">*</span></label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" required id="decimalPoint" name="decimalPoint" placeholder="请输入小数点数">
+											<input type="text" class="form-control" disabled id="decimalPoint" name="decimalPoint" placeholder="请输入小数点数">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -137,7 +137,37 @@ $(function() {
 	loadFrom("form", {
 		tableId:'${dynamicTableManage.id}'
 	});
+	$("#typeForMysql").change(function(){
+		var value = $(this).val();
+		if("integer"==value || "varchar"==value	|| "text"==value){//长度启用，小数点数禁用
+			disableAndRequiredControl("length",false,true);
+			disableAndRequiredControl("decimalPoint",true,false);
+		} else if("datetime"==value || "date"==value || "blob"==value){//长度和小数点数都禁用
+			disableAndRequiredControl("length",true,false);
+			disableAndRequiredControl("decimalPoint",true,false);
+		} else if("double"==value || "decimal"==value){//长度和小数点数都启用
+			disableAndRequiredControl("length",false,true);
+			disableAndRequiredControl("decimalPoint",false,true);
+		} else if("enum"==value){
+			disableAndRequiredControl("length",true,false);
+			disableAndRequiredControl("decimalPoint",true,false);
+			bootbox.alert("该类型暂不支持！");
+		}
+	});
 });
+function disableAndRequiredControl(buttonId, disable,required) {
+	$("#"+buttonId).val("");
+    if(disable){
+        $("#" + buttonId).attr("disabled", true);
+    } else {
+        $("#" + buttonId).attr("disabled", false);
+    }
+    if(required){
+        $("#" + buttonId).attr("required", true);
+    } else {
+        $("#" + buttonId).attr("required", false);
+    }
+}
 function onSubmit(){
 	if(!validateForm("form")){
 		return;

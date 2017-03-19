@@ -27,7 +27,7 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="<%=request.getContextPath()%>/dynamic/dynamicColumnList/${dynamicTableManage.id}">${dynamicTableManage.tableName}表的列修改</a>
+						<a href="<%=request.getContextPath()%>/dynamic/dynamicColumnList/${dynamicTableManage.id}">${dynamicTableManage.tableName}表的列管理</a>
 					</li>
 				</ul>
 			</div>

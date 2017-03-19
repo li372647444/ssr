@@ -9,8 +9,8 @@ public enum MysqlColumnTypeEnum {
 	ENUM("enum","enum","java.lang.String"),
 	DOUBLE("double","double","java.lang.Double"),
 	DECIMAL("decimal","decimal","java.math.BigDecimal"),
-	TEXT("text","text","java.math.BigDecimal"),
-	BLOB("blob","blob","java.math.BigDecimal");
+	TEXT("text","text","java.lang.String"),
+	BLOB("blob","blob","java.lang.String");
 	
 	String index;
 	String name;
