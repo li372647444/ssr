@@ -6,13 +6,16 @@
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="primary_key_column_id" property="primaryKeyColumnId" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="primary_key_column_id" property="primaryKeyColumnId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectDynamicTableManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT id,create_time,remark,table_name FROM DYNAMIC_TABLE_MANAGE
+    SELECT id,table_name,remark,primary_key_column_id,create_time,create_user_id,update_time,update_user_id FROM DYNAMIC_TABLE_MANAGE
     <where>
       <if test="tableName!=null and tableName!=''">
         table_name like CONCAT('%',#{tableName},'%')

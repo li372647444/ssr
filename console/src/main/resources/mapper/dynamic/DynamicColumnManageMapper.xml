@@ -6,19 +6,24 @@
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="column_name" property="columnName" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="decimal_point" property="decimalPoint" jdbcType="INTEGER" />
-    <result column="is_autoincrement" property="isAutoincrement" jdbcType="BIT" />
-    <result column="is_primary_key" property="isPrimaryKey" jdbcType="BIT" />
-    <result column="length" property="length" jdbcType="INTEGER" />
-    <result column="nullable" property="nullable" jdbcType="BIT" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="table_id" property="tableId" jdbcType="INTEGER" />
+    <result column="column_name" property="columnName" jdbcType="VARCHAR" />
     <result column="type_for_mysql" property="typeForMysql" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="INTEGER" />
+    <result column="decimal_point" property="decimalPoint" jdbcType="INTEGER" />
+    <result column="enum_value" property="enumValue" jdbcType="VARCHAR" />
+    <result column="nullable" property="nullable" jdbcType="BIT" />
+    <result column="is_primary_key" property="isPrimaryKey" jdbcType="BIT" />
+    <result column="is_autoincrement" property="isAutoincrement" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
   </resultMap>
    <select id="selectDynamicColumnManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT id,column_name,create_time,decimal_point,is_autoincrement,is_primary_key,length,nullable,remark,table_id,type_for_mysql
+    SELECT id,table_id,column_name,type_for_mysql,length,decimal_point,enum_value,nullable,
+    	is_primary_key,is_autoincrement,remark,create_time,create_user_id,update_time,update_user_id
      FROM DYNAMIC_COLUMN_MANAGE
     <where>
         table_id = #{tableId}
