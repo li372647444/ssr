@@ -15,9 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 import com.ssr.base.util.AjaxSupport;
+import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.annotation.Right;
 import com.ssr.base.web.controller.BaseController;
 import com.ssr.console.model.dynamic.DynamicTableManage;
+import com.ssr.console.model.system.PrvUser;
 import com.ssr.console.service.dynamic.DynamicTableManageService;
 
 @Controller
@@ -46,10 +48,14 @@ public class DynamicTableController extends BaseController {
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/addDynamicTable", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addDynamicTable(DynamicTableManage dynamicTableManage) throws Exception{
+	public Object addDynamicTable(DynamicTableManage dynamicTableManage,HttpServletRequest request) throws Exception{
+		PrvUser user  = (PrvUser) request.getSession().getAttribute(SystemConstants.SESSION_USER);
 		if(dynamicTableManage.getId()!=null){//修改
+			dynamicTableManage.setUpdateUserId(user.getId());
+			dynamicTableManage.setUpdateTime(new Date());
 			dynamicTableManageService.updateDynamicTableManage(dynamicTableManage);
 		} else {//新增
+			dynamicTableManage.setCreateUserId(user.getId());
 			dynamicTableManage.setCreateTime(new Date());
 			dynamicTableManageService.saveDynamicTableManage(dynamicTableManage);
 		}
@@ -72,7 +78,10 @@ public class DynamicTableController extends BaseController {
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/updateDynamicTable", method = RequestMethod.POST)
 	@ResponseBody
-	public Object updateDynamicTable(DynamicTableManage dynamicTableManage) throws Exception{
+	public Object updateDynamicTable(DynamicTableManage dynamicTableManage,HttpServletRequest request) throws Exception{
+		PrvUser user  = (PrvUser) request.getSession().getAttribute(SystemConstants.SESSION_USER);
+		dynamicTableManage.setUpdateUserId(user.getId());
+		dynamicTableManage.setUpdateTime(new Date());
 		dynamicTableManageService.updateDynamicTableManage(dynamicTableManage);
 		AjaxSupport<DynamicTableManage> re = new AjaxSupport<DynamicTableManage>();
 		re.setModel(dynamicTableManage);

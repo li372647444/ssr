@@ -107,8 +107,26 @@ $(function() {
 				sortable: false
 			},
 			{
+				property: 'createUserName',
+				label: '创建用户',
+				align: 'center',
+				sortable: false
+			},
+			{
 				property: 'createTime',
 				label: '创建时间',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'updateUserName',
+				label: '修改用户',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'updateTime',
+				label: '修改时间',
 				align: 'center',
 				sortable: false
 			},

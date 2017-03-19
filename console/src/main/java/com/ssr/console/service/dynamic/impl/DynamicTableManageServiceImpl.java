@@ -1,6 +1,5 @@
 package com.ssr.console.service.dynamic.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +46,9 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
             throw new BusinessException(dynamicTableManage.getTableName()+"表已存在！");
         }
         //插入表 记录
-        Date now = new Date();
-        dynamicTableManage.setCreateTime(now);
+        dynamicTableManage.setPrimaryKeyColumnId(0);//默认编写关联ID为0，后面插入数据后更新该值
         dynamicTableManageMapper.insert(dynamicTableManage);
+        //-----------默认查数据-----------------
         //插入列记录
         DynamicColumnManage idColumn = new DynamicColumnManage();
         idColumn.setTableId(dynamicTableManage.getId());
@@ -61,9 +60,101 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         idColumn.setIsPrimaryKey(true);
         idColumn.setIsAutoincrement(true);
         idColumn.setRemark("主键Id 系统新增表时自动添加");
-        idColumn.setCreateTime(now);
-        int idColumnId = dynamicColumnManageMapper.insert(idColumn);
-        idColumn.setId(idColumnId);
+        idColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        idColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(idColumn);
+        
+        //创建时间、创建用户、修改时间、修改用户、删除时间、删除用户、状态（0：无效，1：有效）  默认字段
+        //创建用户 默认字段
+        DynamicColumnManage createUserIdColumn = new DynamicColumnManage();
+        createUserIdColumn.setTableId(dynamicTableManage.getId());
+        createUserIdColumn.setColumnName("create_user_id");
+        createUserIdColumn.setTypeForMysql(C_MysqlColumnType.INTEGER);
+        createUserIdColumn.setLength(10);
+        createUserIdColumn.setNullable(false);
+        createUserIdColumn.setIsPrimaryKey(false);
+        createUserIdColumn.setIsAutoincrement(false);
+        createUserIdColumn.setRemark("创建用户ID");
+        createUserIdColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        createUserIdColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(createUserIdColumn);
+        //创建时间  默认字段 
+        DynamicColumnManage createTimeColumn = new DynamicColumnManage();
+        createTimeColumn.setTableId(dynamicTableManage.getId());
+        createTimeColumn.setColumnName("create_time");
+        createTimeColumn.setTypeForMysql(C_MysqlColumnType.DATETIME);
+        createTimeColumn.setNullable(false);
+        createTimeColumn.setIsPrimaryKey(false);
+        createTimeColumn.setIsAutoincrement(false);
+        createTimeColumn.setRemark("创建时间");
+        createTimeColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        createTimeColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(createTimeColumn);
+        //修改用户 默认字段
+        DynamicColumnManage updateUserIdColumn = new DynamicColumnManage();
+        updateUserIdColumn.setTableId(dynamicTableManage.getId());
+        updateUserIdColumn.setColumnName("update_user_id");
+        updateUserIdColumn.setTypeForMysql(C_MysqlColumnType.INTEGER);
+        updateUserIdColumn.setLength(10);
+        updateUserIdColumn.setNullable(true);
+        updateUserIdColumn.setIsPrimaryKey(false);
+        updateUserIdColumn.setIsAutoincrement(false);
+        updateUserIdColumn.setRemark("修改用户ID");
+        updateUserIdColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        updateUserIdColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(updateUserIdColumn);
+        //修改时间  默认字段 
+        DynamicColumnManage updateTimeColumn = new DynamicColumnManage();
+        updateTimeColumn.setTableId(dynamicTableManage.getId());
+        updateTimeColumn.setColumnName("update_time");
+        updateTimeColumn.setTypeForMysql(C_MysqlColumnType.DATETIME);
+        updateTimeColumn.setNullable(true);
+        updateTimeColumn.setIsPrimaryKey(false);
+        updateTimeColumn.setIsAutoincrement(false);
+        updateTimeColumn.setRemark("修改时间");
+        updateTimeColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        updateTimeColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(updateTimeColumn);
+        //删除用户 默认字段
+        DynamicColumnManage deleteUserIdColumn = new DynamicColumnManage();
+        deleteUserIdColumn.setTableId(dynamicTableManage.getId());
+        deleteUserIdColumn.setColumnName("delete_user_id");
+        deleteUserIdColumn.setTypeForMysql(C_MysqlColumnType.INTEGER);
+        deleteUserIdColumn.setLength(10);
+        deleteUserIdColumn.setNullable(true);
+        deleteUserIdColumn.setIsPrimaryKey(false);
+        deleteUserIdColumn.setIsAutoincrement(false);
+        deleteUserIdColumn.setRemark("删除用户ID");
+        deleteUserIdColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        deleteUserIdColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(deleteUserIdColumn);
+        //删除时间  默认字段 
+        DynamicColumnManage deleteTimeColumn = new DynamicColumnManage();
+        deleteTimeColumn.setTableId(dynamicTableManage.getId());
+        deleteTimeColumn.setColumnName("delete_time");
+        deleteTimeColumn.setTypeForMysql(C_MysqlColumnType.DATETIME);
+        deleteTimeColumn.setNullable(true);
+        deleteTimeColumn.setIsPrimaryKey(false);
+        deleteTimeColumn.setIsAutoincrement(false);
+        deleteTimeColumn.setRemark("删除时间");
+        deleteTimeColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        deleteTimeColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(deleteTimeColumn);
+        //状态 默认字段
+        DynamicColumnManage stateColumn = new DynamicColumnManage();
+        stateColumn.setTableId(dynamicTableManage.getId());
+        stateColumn.setColumnName("state");
+        stateColumn.setTypeForMysql(C_MysqlColumnType.VARCHAR);
+        stateColumn.setLength(4);
+        stateColumn.setNullable(false);
+        stateColumn.setIsPrimaryKey(false);
+        stateColumn.setIsAutoincrement(false);
+        stateColumn.setRemark("状态（1：有效，0：无效）");
+        stateColumn.setCreateTime(dynamicTableManage.getCreateTime());
+        stateColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
+        dynamicColumnManageMapper.insert(stateColumn);
+        //-----------默认查数据------end -----------
+        
         //更新关联
         dynamicTableManage.setPrimaryKeyColumnId(idColumn.getId());
         dynamicTableManageMapper.updateByPrimaryKeySelective(dynamicTableManage);

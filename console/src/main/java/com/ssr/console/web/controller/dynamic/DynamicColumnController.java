@@ -15,11 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 import com.ssr.base.util.AjaxSupport;
+import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.annotation.Right;
 import com.ssr.base.util.constantenum.MysqlColumnTypeEnum;
 import com.ssr.base.web.controller.BaseController;
 import com.ssr.console.model.dynamic.DynamicColumnManage;
 import com.ssr.console.model.dynamic.DynamicTableManage;
+import com.ssr.console.model.system.PrvUser;
 import com.ssr.console.service.dynamic.DynamicColumnManageService;
 import com.ssr.console.service.dynamic.DynamicTableManageService;
 
@@ -43,7 +45,7 @@ public class DynamicColumnController extends BaseController {
 		return mv;
 	}
 	
-	@Right(id = "SSR_C_DYNAMIC__DYNAMICCOLUMNLIST_POST", name = "列列表", 
+	@Right(id = "SSR_C_DYNAMIC_DYNAMICCOLUMNLIST_POST", name = "列列表", 
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/dynamicColumnList", method = RequestMethod.POST)
 	@ResponseBody
@@ -76,10 +78,14 @@ public class DynamicColumnController extends BaseController {
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/addDynamicColumn", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addDynamicColumn(DynamicColumnManage dynamicColumnManage) throws Exception{
+	public Object addDynamicColumn(DynamicColumnManage dynamicColumnManage,HttpServletRequest request) throws Exception{
+		PrvUser user  = (PrvUser) request.getSession().getAttribute(SystemConstants.SESSION_USER);
 		if(dynamicColumnManage.getId()!=null){//修改
+			dynamicColumnManage.setUpdateUserId(user.getId());
+			dynamicColumnManage.setUpdateTime(new Date());
 			dynamicColumnManageService.updateDynamicColumnManage(dynamicColumnManage);
 		} else {//新增
+			dynamicColumnManage.setCreateUserId(user.getId());
 			dynamicColumnManage.setCreateTime(new Date());
 			dynamicColumnManageService.saveDynamicColumnManage(dynamicColumnManage);
 		}
@@ -105,7 +111,10 @@ public class DynamicColumnController extends BaseController {
 			moduleId = "SSR_C_DYNAMIC", moduleName = "动态表管理", moduleOrder = 2)
 	@RequestMapping(value = "/updateDynamicColumn", method = RequestMethod.POST)
 	@ResponseBody
-	public Object updateDynamicColumn(DynamicColumnManage dynamicColumnManage) throws Exception{
+	public Object updateDynamicColumn(DynamicColumnManage dynamicColumnManage,HttpServletRequest request) throws Exception{
+		PrvUser user  = (PrvUser) request.getSession().getAttribute(SystemConstants.SESSION_USER);
+		dynamicColumnManage.setUpdateUserId(user.getId());
+		dynamicColumnManage.setUpdateTime(new Date());
 		dynamicColumnManageService.updateDynamicColumnManage(dynamicColumnManage);
 		AjaxSupport<DynamicColumnManage> re = new AjaxSupport<DynamicColumnManage>();
 		re.setModel(dynamicColumnManage);

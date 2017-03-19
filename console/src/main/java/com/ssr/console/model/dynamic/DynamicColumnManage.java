@@ -90,6 +90,20 @@ public class DynamicColumnManage {
     @Column(name = "update_user_id")
     private Integer updateUserId;
 
+    
+    //------------------不入库字段----------------
+    /**
+     * 创建用户名
+     */
+    @Transient
+    private String createUserName;
+    /**
+     * 修改用户名
+     */
+    @Transient
+    private String updateUserName;
+  //------------------不入库字段-------end---------
+    
     /**
      * @return id
      */
@@ -355,4 +369,20 @@ public class DynamicColumnManage {
     public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
 }

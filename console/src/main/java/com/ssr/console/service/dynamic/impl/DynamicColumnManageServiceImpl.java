@@ -1,6 +1,5 @@
 package com.ssr.console.service.dynamic.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +86,8 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
 		if(dynamicColumnManage.getIsPrimaryKey()==null){
 			dynamicColumnManage.setIsPrimaryKey(false);
 		}
+		dynamicColumnManage.setCreateUserId(dynamicColumnManage_old.getCreateUserId());
+		dynamicColumnManage.setCreateTime(dynamicColumnManage_old.getCreateTime());
         dynamicColumnManageMapper.updateByPrimaryKeySelective(dynamicColumnManage);
 
         String sql = "ALTER TABLE "+ tableName +" CHANGE COLUMN "+ columnName_old +" "+ dynamicColumnManage.getColumnName() +" ";
@@ -141,9 +142,6 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         if(dynamicColumnManage.getTypeForMysql() == null || "".equals(dynamicColumnManage.getTypeForMysql())){
             throw new BusinessException("The parameter (dynamicColumnManage.typeForMysql) must not be null.");
         }
-        /*if(dynamicColumnManage.getLength() == null || "".equals(dynamicColumnManage.getLength())){
-            throw new BusinessException("The parameter (dynamicColumnManage.length) must not be null.");
-        }*/
         DynamicTableManage dynamicTableManage = dynamicTableManageMapper.selectByPrimaryKey(dynamicColumnManage.getTableId());
         if(dynamicTableManage == null){
             throw new BusinessException("列的表记录已不存在！");
@@ -156,7 +154,6 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
             throw new BusinessException(dynamicTableManage.getTableName()+"列已存在！");
         }
         //插入列记录
-        dynamicColumnManage.setCreateTime(new Date());
         if(dynamicColumnManage.getIsAutoincrement()==null){
 			dynamicColumnManage.setIsAutoincrement(false);
 		}

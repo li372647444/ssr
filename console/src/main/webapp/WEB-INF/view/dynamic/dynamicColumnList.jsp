@@ -123,6 +123,12 @@ $(function() {
 				sortable: false
 			},
 			{
+				property: 'enumValue',
+				label: '枚举值',
+				align: 'center',
+				sortable: false
+			},
+			{
 				property: 'nullable',
 				label: '是否可为空',
 				align: 'center',
@@ -165,8 +171,26 @@ $(function() {
 				sortable: false
 			},
 			{
+				property: 'createUserName',
+				label: '创建用户',
+				align: 'center',
+				sortable: false
+			},
+			{
 				property: 'createTime',
 				label: '创建时间',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'updateUserName',
+				label: '修改用户',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'updateTime',
+				label: '修改时间',
 				align: 'center',
 				sortable: false
 			},
@@ -176,12 +200,17 @@ $(function() {
 				align: 'center',
 				sortable: false,
 				render: function(val,row,index){
-					var html = "";
-					if(row.isPrimaryKey!=true){
-						html = "<a href='<%=request.getContextPath()%>/dynamic/updateDynamicColumn/"+row.id+"'>修改列</a>";
+					if(row.isPrimaryKey==true || row.columnName=="id" 
+						|| row.columnName=="create_time" || row.columnName=="create_user_id"
+						|| row.columnName=="update_time" || row.columnName=="update_user_id"
+						|| row.columnName=="delete_time" || row.columnName=="delete_user_id"
+						|| row.columnName=="state"){//禁止修改、删除
+						return "";
+					} else {
+						var html = "<a href='<%=request.getContextPath()%>/dynamic/updateDynamicColumn/"+row.id+"'>修改列</a>";
 						html += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deleteRow("+row.id+")'>删除列</a>";
+						return html;
 					}
-					return html;
 				}
 			}
 		],

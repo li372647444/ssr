@@ -22,13 +22,17 @@
     <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
   </resultMap>
    <select id="selectDynamicColumnManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT id,table_id,column_name,type_for_mysql,length,decimal_point,enum_value,nullable,
-    	is_primary_key,is_autoincrement,remark,create_time,create_user_id,update_time,update_user_id
-     FROM DYNAMIC_COLUMN_MANAGE
+    SELECT t.id,t.table_id,t.column_name,t.type_for_mysql,t.length,t.decimal_point,t.enum_value,t.nullable,
+    	t.is_primary_key,t.is_autoincrement,t.remark,t.create_time,t.create_user_id,t.update_time,t.update_user_id,
+     	u1.name AS createUserName,
+    	u2.name AS updateUserName
+     FROM DYNAMIC_COLUMN_MANAGE t
+     	LEFT JOIN PRV_USER u1 on u1.id = t.create_user_id
+    	LEFT JOIN PRV_USER u2 on u2.id = t.update_user_id
     <where>
-        table_id = #{tableId}
+        t.table_id = #{tableId}
       <if test="columnName!=null and columnName!=''">
-        and column_name = #{columnName}
+        and t.column_name = #{columnName}
       </if>
     </where>
   </select>
