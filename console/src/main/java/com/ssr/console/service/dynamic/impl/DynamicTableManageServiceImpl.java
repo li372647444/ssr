@@ -110,7 +110,6 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
             throw new BusinessException("表名不能为空.");
         }
         //原表
-        System.out.println(dynamicTableManage.getId());
         DynamicTableManage dynamicTableManage_old = dynamicTableManageMapper.selectByPrimaryKey(dynamicTableManage.getId());
         if(dynamicTableManage_old == null){
             throw new BusinessException("表 记录已不存在！");

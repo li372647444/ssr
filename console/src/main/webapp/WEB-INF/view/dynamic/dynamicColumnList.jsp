@@ -118,7 +118,7 @@ $(function() {
 			},
 			{
 				property: 'decimalPoint',
-				label: '小数点',
+				label: '小数点数',
 				align: 'center',
 				sortable: false
 			},

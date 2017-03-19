@@ -134,6 +134,10 @@ $(function() {
 	Layout.init();
 	QuickSidebar.init();
 	initMenu("_dynamic_dynamicTableList");
+	$("#typeForMysql").change(function(){
+		changeTypeForMysql($(this).val());
+	});
+	changeTypeForMysql('${dynamicColumnManage.typeForMysql}');
 	loadFrom("form", {
 		id:'${dynamicColumnManage.id}',
 		tableId:'${dynamicColumnManage.tableId}',
@@ -145,6 +149,37 @@ $(function() {
 		remark:'${dynamicColumnManage.remark}'
 	});
 });
+
+function changeTypeForMysql(value){
+	if("integer"==value || "varchar"==value){//长度启用，小数点数禁用
+		disableAndRequiredControl("length",false,true);
+		disableAndRequiredControl("decimalPoint",true,false);
+	} else if("datetime"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数都禁用
+		disableAndRequiredControl("length",true,false);
+		disableAndRequiredControl("decimalPoint",true,false);
+	} else if("double"==value || "decimal"==value){//长度和小数点数都启用
+		disableAndRequiredControl("length",false,true);
+		disableAndRequiredControl("decimalPoint",false,true);
+	} else if("enum"==value){
+		disableAndRequiredControl("length",true,false);
+		disableAndRequiredControl("decimalPoint",true,false);
+		bootbox.alert("该类型暂不支持！");
+	}
+}
+
+function disableAndRequiredControl(buttonId, disable,required) {
+	$("#"+buttonId).val("");
+    if(disable){
+        $("#" + buttonId).attr("disabled", true);
+    } else {
+        $("#" + buttonId).attr("disabled", false);
+    }
+    if(required){
+        $("#" + buttonId).attr("required", true);
+    } else {
+        $("#" + buttonId).attr("required", false);
+    }
+}
 function onSubmit(){
 	if(!validateForm("form")){
 		return;

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.ssr.base.exception.BusinessException;
 import com.ssr.base.service.impl.BaseServiceImpl;
-import com.ssr.base.util.constant.C_MysqlColumnType;
 import com.ssr.base.util.constantenum.MysqlColumnTypeEnum;
 import com.ssr.console.mapper.dynamic.DynamicColumnManageMapper;
 import com.ssr.console.mapper.dynamic.DynamicTableManageMapper;
@@ -78,9 +77,8 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         DynamicColumnManage query = new DynamicColumnManage();
         query.setTableId(dynamicColumnManage.getTableId());
         query.setColumnName(dynamicColumnManage.getColumnName());
-        List<DynamicColumnManage> dynamicColumnManages = dynamicColumnManageMapper.select(query);
-        if(dynamicColumnManages!=null && dynamicColumnManages.size()>0
-                && (dynamicColumnManages.get(0).getId() - dynamicColumnManage.getId()!=0)){
+        DynamicColumnManage dynamicColumnManage_db = dynamicColumnManageMapper.selectOne(query);
+        if(dynamicColumnManage_db!=null && (dynamicColumnManage_db.getId() - dynamicColumnManage.getId()!=0)){
             throw new BusinessException(dynamicColumnManage.getColumnName()+"列已存！");
         }
         if(dynamicColumnManage.getIsAutoincrement()==null){
@@ -89,20 +87,29 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
 		if(dynamicColumnManage.getIsPrimaryKey()==null){
 			dynamicColumnManage.setIsPrimaryKey(false);
 		}
-        dynamicColumnManageMapper.updateByPrimaryKey(dynamicColumnManage);
+        dynamicColumnManageMapper.updateByPrimaryKeySelective(dynamicColumnManage);
 
         String sql = "ALTER TABLE "+ tableName +" CHANGE COLUMN "+ columnName_old +" "+ dynamicColumnManage.getColumnName() +" ";
         //类型 与 长度
-        if(C_MysqlColumnType.INTEGER.equals(dynamicColumnManage.getTypeForMysql())){
-            sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +(dynamicColumnManage.getDecimalPoint()==null?"":","+dynamicColumnManage.getDecimalPoint())+")";
-        } else if(C_MysqlColumnType.VARCHAR.equals(dynamicColumnManage.getTypeForMysql())){
-            sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +")";
-        } else if(C_MysqlColumnType.DOUBLE.equals(dynamicColumnManage.getTypeForMysql())){
-            sql += dynamicColumnManage.getTypeForMysql()+"("+ dynamicColumnManage.getLength() +(dynamicColumnManage.getDecimalPoint()==null?"0":","+dynamicColumnManage.getDecimalPoint())+")";
-        } else if(C_MysqlColumnType.DATETIME.equals(dynamicColumnManage.getTypeForMysql())){
-            sql += dynamicColumnManage.getTypeForMysql();
+        String typeForMysql = dynamicColumnManage.getTypeForMysql();
+        Integer length = dynamicColumnManage.getLength();
+        Integer decimalPoint = dynamicColumnManage.getDecimalPoint();
+        if(MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql) 
+        		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)){
+            sql += typeForMysql+"("+ length +")";
+        } else if(MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.TEXT.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql)){
+        	sql += typeForMysql;
+        } else if(MysqlColumnTypeEnum.DOUBLE.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.DECIMAL.getName().equals(typeForMysql)){
+            sql += typeForMysql+"("+ length +","+(decimalPoint==null?"0":decimalPoint)+")";
+        } else if(MysqlColumnTypeEnum.ENUM.getName().equals(typeForMysql)){
+        	//sql += typeForMysql+"("+value+")";
+        	throw new BusinessException("暂不支持该列类型！");
         } else {
-            throw new BusinessException("未知列类型!");
+            throw new BusinessException("未知列类型！");
         }
         //是否为空
         if(dynamicColumnManage.getNullable()){
@@ -166,7 +173,7 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         Integer length = dynamicColumnManage.getLength();
         Integer decimalPoint = dynamicColumnManage.getDecimalPoint();
         if(MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql) 
-        		|| MysqlColumnTypeEnum.VARCHAR.equals(typeForMysql)){
+        		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)){
             sql += typeForMysql+"("+ length +")";
         } else if(MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
