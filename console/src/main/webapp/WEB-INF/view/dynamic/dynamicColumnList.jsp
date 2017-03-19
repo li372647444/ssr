@@ -106,7 +106,7 @@ $(function() {
 			},
 			{
 				property: 'typeForMysql',
-				label: 'Mysql 数据库 列  类型',
+				label: 'Mysql类型',
 				align: 'center',
 				sortable: false
 			},
