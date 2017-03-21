@@ -163,6 +163,14 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         StringBuffer sql = new StringBuffer();
         sql.append("CREATE TABLE "+dynamicTableManage.getTableName()+" (");
         sql.append(" "+idColumn.getColumnName()+"  "+idColumn.getTypeForMysql()+"("+idColumn.getLength()+") NOT NULL AUTO_INCREMENT COMMENT '"+idColumn.getRemark()+"' , ");
+        //创建时间、创建用户、修改时间、修改用户、删除时间、删除用户、状态（0：无效，1：有效）  默认字段
+        sql.append(" "+createUserIdColumn.getColumnName()+"  "+createUserIdColumn.getTypeForMysql()+"("+createUserIdColumn.getLength()+") "+(createUserIdColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+createUserIdColumn.getRemark()+"' , ");
+        sql.append(" "+createTimeColumn.getColumnName()+"  "+createTimeColumn.getTypeForMysql()+(createTimeColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+createTimeColumn.getRemark()+"' , ");
+        sql.append(" "+updateUserIdColumn.getColumnName()+"  "+updateUserIdColumn.getTypeForMysql()+"("+updateUserIdColumn.getLength()+") "+(updateUserIdColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+updateUserIdColumn.getRemark()+"' , ");
+        sql.append(" "+updateTimeColumn.getColumnName()+"  "+updateTimeColumn.getTypeForMysql()+(updateTimeColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+updateTimeColumn.getRemark()+"' , ");
+        sql.append(" "+deleteUserIdColumn.getColumnName()+"  "+deleteUserIdColumn.getTypeForMysql()+"("+deleteUserIdColumn.getLength()+") "+(deleteUserIdColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+deleteUserIdColumn.getRemark()+"' , ");
+        sql.append(" "+deleteTimeColumn.getColumnName()+"  "+deleteTimeColumn.getTypeForMysql()+(deleteTimeColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+deleteTimeColumn.getRemark()+"' , ");
+        sql.append(" "+stateColumn.getColumnName()+"  "+stateColumn.getTypeForMysql()+"("+stateColumn.getLength()+") "+(stateColumn.getNullable()?" NULL":" NOT NULL")+" COMMENT '"+stateColumn.getRemark()+"' , ");
         sql.append(" PRIMARY KEY (`"+idColumn.getColumnName()+"`) ");
         sql.append(") COMMENT='"+dynamicTableManage.getRemark()+"'");
         debug(sql.toString());
