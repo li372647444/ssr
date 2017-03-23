@@ -55,11 +55,14 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         idColumn.setColumnName("id");
         idColumn.setTypeForMysql(C_MysqlColumnType.INTEGER);
         idColumn.setLength(10);
-        //以下3条必须如下设置
         idColumn.setNullable(false);
         idColumn.setIsPrimaryKey(true);
         idColumn.setIsAutoincrement(true);
+        idColumn.setIsQueryCondition(false);
+        idColumn.setIsAllowUpdate(false);
+        idColumn.setIsListDisplay(false);
         idColumn.setRemark("主键Id 系统新增表时自动添加");
+        idColumn.setIsSystemField(true);
         idColumn.setCreateTime(dynamicTableManage.getCreateTime());
         idColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(idColumn);
@@ -74,7 +77,11 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         createUserIdColumn.setNullable(false);
         createUserIdColumn.setIsPrimaryKey(false);
         createUserIdColumn.setIsAutoincrement(false);
+        createUserIdColumn.setIsQueryCondition(false);
+        createUserIdColumn.setIsAllowUpdate(false);
+        createUserIdColumn.setIsListDisplay(false);
         createUserIdColumn.setRemark("创建用户ID");
+        createUserIdColumn.setIsSystemField(true);
         createUserIdColumn.setCreateTime(dynamicTableManage.getCreateTime());
         createUserIdColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(createUserIdColumn);
@@ -86,7 +93,11 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         createTimeColumn.setNullable(false);
         createTimeColumn.setIsPrimaryKey(false);
         createTimeColumn.setIsAutoincrement(false);
+        createTimeColumn.setIsQueryCondition(false);
+        createTimeColumn.setIsAllowUpdate(false);
+        createTimeColumn.setIsListDisplay(false);
         createTimeColumn.setRemark("创建时间");
+        createTimeColumn.setIsSystemField(true);
         createTimeColumn.setCreateTime(dynamicTableManage.getCreateTime());
         createTimeColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(createTimeColumn);
@@ -99,7 +110,11 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         updateUserIdColumn.setNullable(true);
         updateUserIdColumn.setIsPrimaryKey(false);
         updateUserIdColumn.setIsAutoincrement(false);
+        updateUserIdColumn.setIsQueryCondition(false);
+        updateUserIdColumn.setIsAllowUpdate(false);
+        updateUserIdColumn.setIsListDisplay(false);
         updateUserIdColumn.setRemark("修改用户ID");
+        updateUserIdColumn.setIsSystemField(true);
         updateUserIdColumn.setCreateTime(dynamicTableManage.getCreateTime());
         updateUserIdColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(updateUserIdColumn);
@@ -111,7 +126,11 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         updateTimeColumn.setNullable(true);
         updateTimeColumn.setIsPrimaryKey(false);
         updateTimeColumn.setIsAutoincrement(false);
+        updateTimeColumn.setIsQueryCondition(false);
+        updateTimeColumn.setIsAllowUpdate(false);
+        updateTimeColumn.setIsListDisplay(false);
         updateTimeColumn.setRemark("修改时间");
+        updateTimeColumn.setIsSystemField(true);
         updateTimeColumn.setCreateTime(dynamicTableManage.getCreateTime());
         updateTimeColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(updateTimeColumn);
@@ -124,7 +143,11 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         deleteUserIdColumn.setNullable(true);
         deleteUserIdColumn.setIsPrimaryKey(false);
         deleteUserIdColumn.setIsAutoincrement(false);
+        deleteUserIdColumn.setIsQueryCondition(false);
+        deleteUserIdColumn.setIsAllowUpdate(false);
+        deleteUserIdColumn.setIsListDisplay(false);
         deleteUserIdColumn.setRemark("删除用户ID");
+        deleteUserIdColumn.setIsSystemField(true);
         deleteUserIdColumn.setCreateTime(dynamicTableManage.getCreateTime());
         deleteUserIdColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(deleteUserIdColumn);
@@ -136,7 +159,11 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         deleteTimeColumn.setNullable(true);
         deleteTimeColumn.setIsPrimaryKey(false);
         deleteTimeColumn.setIsAutoincrement(false);
+        deleteTimeColumn.setIsQueryCondition(false);
+        deleteTimeColumn.setIsAllowUpdate(false);
+        deleteTimeColumn.setIsListDisplay(false);
         deleteTimeColumn.setRemark("删除时间");
+        deleteTimeColumn.setIsSystemField(true);
         deleteTimeColumn.setCreateTime(dynamicTableManage.getCreateTime());
         deleteTimeColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(deleteTimeColumn);
@@ -149,11 +176,15 @@ public class DynamicTableManageServiceImpl extends BaseServiceImpl implements Dy
         stateColumn.setNullable(false);
         stateColumn.setIsPrimaryKey(false);
         stateColumn.setIsAutoincrement(false);
+        stateColumn.setIsQueryCondition(false);
+        stateColumn.setIsAllowUpdate(false);
+        stateColumn.setIsListDisplay(false);
         stateColumn.setRemark("状态（1：有效，0：无效）");
+        stateColumn.setIsSystemField(true);
         stateColumn.setCreateTime(dynamicTableManage.getCreateTime());
         stateColumn.setCreateUserId(dynamicTableManage.getCreateUserId());
         dynamicColumnManageMapper.insert(stateColumn);
-        //-----------默认查数据------end -----------
+        //-----------默认数据------end -----------
         
         //更新关联
         dynamicTableManage.setPrimaryKeyColumnId(idColumn.getId());

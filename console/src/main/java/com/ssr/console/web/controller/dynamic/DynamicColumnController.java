@@ -18,6 +18,7 @@ import com.ssr.base.util.AjaxSupport;
 import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.annotation.Right;
 import com.ssr.base.util.constantenum.MysqlColumnTypeEnum;
+import com.ssr.base.util.constantenum.QueryConditionSymbolEnum;
 import com.ssr.base.web.controller.BaseController;
 import com.ssr.console.model.dynamic.DynamicColumnManage;
 import com.ssr.console.model.dynamic.DynamicTableManage;
@@ -42,6 +43,7 @@ public class DynamicColumnController extends BaseController {
 		DynamicTableManage dynamicTableManage = dynamicTableManageService.queryDynamicTableManageById(id);
 		ModelAndView mv = new ModelAndView("dynamic/dynamicColumnList");
 		mv.addObject("dynamicTableManage", dynamicTableManage);
+		mv.addObject("queryConditionSymbols", QueryConditionSymbolEnum.values());
 		return mv;
 	}
 	
@@ -71,6 +73,7 @@ public class DynamicColumnController extends BaseController {
 		ModelAndView mv = new ModelAndView("dynamic/addDynamicColumn");
 		mv.addObject("dynamicTableManage", dynamicTableManage);
 		mv.addObject("typesForMysql", MysqlColumnTypeEnum.values());
+		mv.addObject("queryConditionSymbols", QueryConditionSymbolEnum.values());
 		return mv;
 	}
 	
@@ -104,6 +107,7 @@ public class DynamicColumnController extends BaseController {
 		mv.addObject("dynamicTableManage", dynamicTableManage);
 		mv.addObject("dynamicColumnManage", dynamicColumnManage);
 		mv.addObject("typesForMysql", MysqlColumnTypeEnum.values());
+		mv.addObject("queryConditionSymbols", QueryConditionSymbolEnum.values());
 		return mv;
 	}
 	

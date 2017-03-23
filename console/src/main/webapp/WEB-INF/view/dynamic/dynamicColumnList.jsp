@@ -76,7 +76,7 @@
 						</div>
 						<div class="portlet-body">
 							<div class="table-scrollable">
-								<table id="grid" class="table table-striped table-bordered table-hover datagrid">
+								<table id="grid" class="table table-striped table-bordered table-hover datagrid" style="min-width: 2500px;">
 								</table>
 							</div>
 						</div>
@@ -96,6 +96,11 @@ $(function() {
 	Layout.init();
 	QuickSidebar.init();
 	initMenu("_dynamic_dynamicTableList");
+	var typesForMysql = new Array();;
+	<c:forEach items="${queryConditionSymbols}" var="symbol">
+	typesForMysql['${symbol.index}']='${symbol.desc}';
+	</c:forEach>
+	console.log(typesForMysql);
 	var dataSource = new girdDataSource({
 		columns: [
 			{
@@ -165,10 +170,79 @@ $(function() {
 				}
 			},
 			{
+				property: 'insertDefaultValue',
+				label: '新增时默认值',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'isQueryCondition',
+				label: '是否作为查询条件',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
+				property: 'queryConditionSymbol',
+				label: '查询条件符号',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					return typesForMysql[val];
+				}
+			},
+			{
+				property: 'queryDefaultValue',
+				label: '查询默认值',
+				align: 'center',
+				sortable: false
+			},
+			{
+				property: 'isAllowUpdate',
+				label: '是否允许修改',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
+				property: 'isListDisplay',
+				label: '列表时是否显示',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
+			},
+			{
 				property: 'remark',
 				label: '描述',
 				align: 'center',
 				sortable: false
+			},
+			{
+				property: 'isSystemField',
+				label: '是否为系统默认添加字段',
+				align: 'center',
+				sortable: false,
+				render: function(val,row,index){
+					if(val==true){
+						return "是";
+					}
+					return "否";
+				}
 			},
 			{
 				property: 'createUserName',
@@ -200,11 +274,7 @@ $(function() {
 				align: 'center',
 				sortable: false,
 				render: function(val,row,index){
-					if(row.isPrimaryKey==true || row.columnName=="id" 
-						|| row.columnName=="create_time" || row.columnName=="create_user_id"
-						|| row.columnName=="update_time" || row.columnName=="update_user_id"
-						|| row.columnName=="delete_time" || row.columnName=="delete_user_id"
-						|| row.columnName=="state"){//禁止修改、删除
+					if(row.isSystemField == true){//系统字段 禁止修改、删除
 						return "";
 					} else {
 						var html = "<a href='<%=request.getContextPath()%>/dynamic/updateDynamicColumn/"+row.id+"'>修改列</a>";

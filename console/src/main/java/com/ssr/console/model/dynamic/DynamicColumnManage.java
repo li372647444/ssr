@@ -39,7 +39,7 @@ public class DynamicColumnManage {
     private Integer decimalPoint;
 
     /**
-     * 枚举值
+     * 枚举值(key-value,key-value....)
      */
     @Column(name = "enum_value")
     private String enumValue;
@@ -62,15 +62,50 @@ public class DynamicColumnManage {
     private Boolean isAutoincrement;
 
     /**
+     * 新增时默认值
+     */
+    @Column(name = "insert_default_value")
+    private String insertDefaultValue;
+
+    /**
+     * 是否作为查询条件
+     */
+    @Column(name = "is_query_condition")
+    private Boolean isQueryCondition;
+
+    /**
+     * 查询条件符号
+     */
+    @Column(name = "query_condition_symbol")
+    private String queryConditionSymbol;
+
+    /**
+     * 查询默认值
+     */
+    @Column(name = "query_default_value")
+    private String queryDefaultValue;
+    /**
+     * 是否允许修改
+     */
+    @Column(name = "is_allow_update")
+    private Boolean isAllowUpdate;
+
+    /**
+     * 列表时是否显示
+     */
+    @Column(name = "is_list_display")
+    private Boolean isListDisplay;
+
+    /**
      * 备注
      */
     private String remark;
-
+    
     /**
-     * 创建时间
+     * 是否为系统默认添加字段
      */
-    @Column(name = "create_time")
-    private Date createTime;
+    @Column(name = "is_system_field")
+    private Boolean isSystemField;
 
     /**
      * 创建用户ID
@@ -79,10 +114,10 @@ public class DynamicColumnManage {
     private Integer createUserId;
 
     /**
-     * 修改时间
+     * 创建时间
      */
-    @Column(name = "update_time")
-    private Date updateTime;
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * 修改用户ID
@@ -90,20 +125,12 @@ public class DynamicColumnManage {
     @Column(name = "update_user_id")
     private Integer updateUserId;
 
-    
-    //------------------不入库字段----------------
     /**
-     * 创建用户名
+     * 修改时间
      */
-    @Transient
-    private String createUserName;
-    /**
-     * 修改用户名
-     */
-    @Transient
-    private String updateUserName;
-  //------------------不入库字段-------end---------
-    
+    @Column(name = "update_time")
+    private Date updateTime;
+
     /**
      * @return id
      */
@@ -209,18 +236,18 @@ public class DynamicColumnManage {
     }
 
     /**
-     * 获取枚举值
+     * 获取枚举值(key-value,key-value....)
      *
-     * @return enum_value - 枚举值
+     * @return enum_value - 枚举值(key-value,key-value....)
      */
     public String getEnumValue() {
         return enumValue;
     }
 
     /**
-     * 设置枚举值
+     * 设置枚举值(key-value,key-value....)
      *
-     * @param enumValue 枚举值
+     * @param enumValue 枚举值(key-value,key-value....)
      */
     public void setEnumValue(String enumValue) {
         this.enumValue = enumValue;
@@ -281,6 +308,96 @@ public class DynamicColumnManage {
     }
 
     /**
+     * 获取新增时默认值
+     *
+     * @return insert_default_value - 新增时默认值
+     */
+    public String getInsertDefaultValue() {
+        return insertDefaultValue;
+    }
+
+    /**
+     * 设置新增时默认值
+     *
+     * @param insertDefaultValue 新增时默认值
+     */
+    public void setInsertDefaultValue(String insertDefaultValue) {
+        this.insertDefaultValue = insertDefaultValue;
+    }
+
+    /**
+     * 获取是否作为查询条件
+     *
+     * @return is_query_condition - 是否作为查询条件
+     */
+    public Boolean getIsQueryCondition() {
+        return isQueryCondition;
+    }
+
+    /**
+     * 设置是否作为查询条件
+     *
+     * @param isQueryCondition 是否作为查询条件
+     */
+    public void setIsQueryCondition(Boolean isQueryCondition) {
+        this.isQueryCondition = isQueryCondition;
+    }
+
+    /**
+     * 获取查询条件符号
+     *
+     * @return query_condition_symbol - 查询条件符号
+     */
+    public String getQueryConditionSymbol() {
+        return queryConditionSymbol;
+    }
+
+    /**
+     * 设置查询条件符号
+     *
+     * @param queryConditionSymbol 查询条件符号
+     */
+    public void setQueryConditionSymbol(String queryConditionSymbol) {
+        this.queryConditionSymbol = queryConditionSymbol;
+    }
+
+    /**
+     * 获取查询默认值
+     *
+     * @return query_default_value - 查询默认值
+     */
+    public String getQueryDefaultValue() {
+        return queryDefaultValue;
+    }
+
+    /**
+     * 设置查询默认值
+     *
+     * @param queryDefaultValue 查询默认值
+     */
+    public void setQueryDefaultValue(String queryDefaultValue) {
+        this.queryDefaultValue = queryDefaultValue;
+    }
+
+    /**
+     * 获取列表时是否显示
+     *
+     * @return is_list_display - 列表时是否显示
+     */
+    public Boolean getIsListDisplay() {
+        return isListDisplay;
+    }
+
+    /**
+     * 设置列表时是否显示
+     *
+     * @param isListDisplay 列表时是否显示
+     */
+    public void setIsListDisplay(Boolean isListDisplay) {
+        this.isListDisplay = isListDisplay;
+    }
+
+    /**
      * 获取备注
      *
      * @return remark - 备注
@@ -296,24 +413,6 @@ public class DynamicColumnManage {
      */
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    /**
-     * 获取创建时间
-     *
-     * @return create_time - 创建时间
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * 设置创建时间
-     *
-     * @param createTime 创建时间
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 
     /**
@@ -335,21 +434,21 @@ public class DynamicColumnManage {
     }
 
     /**
-     * 获取修改时间
+     * 获取创建时间
      *
-     * @return update_time - 修改时间
+     * @return create_time - 创建时间
      */
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
     /**
-     * 设置修改时间
+     * 设置创建时间
      *
-     * @param updateTime 修改时间
+     * @param createTime 创建时间
      */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**
@@ -370,19 +469,38 @@ public class DynamicColumnManage {
         this.updateUserId = updateUserId;
     }
 
-	public String getCreateUserName() {
-		return createUserName;
+    /**
+     * 获取修改时间
+     *
+     * @return update_time - 修改时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 设置修改时间
+     *
+     * @param updateTime 修改时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+	public Boolean getIsAllowUpdate() {
+		return isAllowUpdate;
 	}
 
-	public void setCreateUserName(String createUserName) {
-		this.createUserName = createUserName;
+	public void setIsAllowUpdate(Boolean isAllowUpdate) {
+		this.isAllowUpdate = isAllowUpdate;
 	}
 
-	public String getUpdateUserName() {
-		return updateUserName;
+	public Boolean getIsSystemField() {
+		return isSystemField;
 	}
 
-	public void setUpdateUserName(String updateUserName) {
-		this.updateUserName = updateUserName;
+	public void setIsSystemField(Boolean isSystemField) {
+		this.isSystemField = isSystemField;
 	}
+	
 }

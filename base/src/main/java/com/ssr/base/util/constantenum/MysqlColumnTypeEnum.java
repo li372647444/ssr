@@ -4,6 +4,7 @@ public enum MysqlColumnTypeEnum {
 	
 	INTEGER("integer","integer","java.lang.Integer"),
 	VARCHAR("varchar","varchar","java.lang.String"),
+	BIT("bit","bit","java.lang.java.lang.Boolean"),
 	DATETIME("datetime","datetime","java.util.Date"),
 	DATE("date","date","java.util.Date"),
 	ENUM("enum","enum","java.lang.String"),

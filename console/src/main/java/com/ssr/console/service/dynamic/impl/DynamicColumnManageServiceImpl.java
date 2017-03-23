@@ -86,6 +86,9 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
 		if(dynamicColumnManage.getIsPrimaryKey()==null){
 			dynamicColumnManage.setIsPrimaryKey(false);
 		}
+		if(dynamicColumnManage.getIsSystemField()==null){
+			dynamicColumnManage.setIsSystemField(false);
+		}
 		dynamicColumnManage.setCreateUserId(dynamicColumnManage_old.getCreateUserId());
 		dynamicColumnManage.setCreateTime(dynamicColumnManage_old.getCreateTime());
         dynamicColumnManageMapper.updateByPrimaryKeySelective(dynamicColumnManage);
@@ -96,8 +99,9 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         Integer length = dynamicColumnManage.getLength();
         Integer decimalPoint = dynamicColumnManage.getDecimalPoint();
         if(MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql) 
-        		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)){
-            sql += typeForMysql+"("+ length +")";
+        		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.BIT.getName().equals(typeForMysql)){
+                sql += typeForMysql+"("+ length +")";
         } else if(MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.TEXT.getName().equals(typeForMysql)
@@ -107,8 +111,13 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         		|| MysqlColumnTypeEnum.DECIMAL.getName().equals(typeForMysql)){
             sql += typeForMysql+"("+ length +","+(decimalPoint==null?"0":decimalPoint)+")";
         } else if(MysqlColumnTypeEnum.ENUM.getName().equals(typeForMysql)){
-        	//sql += typeForMysql+"("+value+")";
-        	throw new BusinessException("暂不支持该列类型！");
+        	String[] enumValues = dynamicColumnManage.getEnumValue().split(",");
+        	String enumValue ="";
+        	for(String s:enumValues){
+        		enumValue +="'"+s.split("-")[0]+"',";
+        	}
+        	enumValue = enumValue.substring(0, enumValue.length()-1);
+        	sql += typeForMysql+"("+enumValue+")";
         } else {
             throw new BusinessException("未知列类型！");
         }
@@ -117,6 +126,13 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
             sql += " NULL ";
         } else {
             sql += " NOT NULL ";
+        }
+        if(dynamicColumnManage.getInsertDefaultValue()!=null){
+        	if("".equals(dynamicColumnManage.getInsertDefaultValue())){
+        		sql += " DEFAULT ''";
+        	} else {
+        		sql += " DEFAULT '"+dynamicColumnManage.getInsertDefaultValue()+"'";
+        	}
         }
         sql += " COMMENT '"+ dynamicColumnManage.getRemark() +"'";
         Map<String, Object> paraMap = new HashMap<String, Object>();
@@ -151,7 +167,7 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         query.setColumnName(dynamicColumnManage.getColumnName());
         List<DynamicColumnManage> dynamicColumnManages = dynamicColumnManageMapper.select(query);
         if(dynamicColumnManages!=null && dynamicColumnManages.size()>0){
-            throw new BusinessException(dynamicTableManage.getTableName()+"列已存在！");
+            throw new BusinessException(dynamicColumnManage.getColumnName()+"列已存在！");
         }
         //插入列记录
         if(dynamicColumnManage.getIsAutoincrement()==null){
@@ -159,6 +175,9 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
 		}
 		if(dynamicColumnManage.getIsPrimaryKey()==null){
 			dynamicColumnManage.setIsPrimaryKey(false);
+		}
+		if(dynamicColumnManage.getIsSystemField()==null){
+			dynamicColumnManage.setIsSystemField(false);
 		}
         dynamicColumnManageMapper.insert(dynamicColumnManage);
 
@@ -170,7 +189,8 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         Integer length = dynamicColumnManage.getLength();
         Integer decimalPoint = dynamicColumnManage.getDecimalPoint();
         if(MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql) 
-        		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)){
+        		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.BIT.getName().equals(typeForMysql)){
             sql += typeForMysql+"("+ length +")";
         } else if(MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
@@ -181,8 +201,13 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         		|| MysqlColumnTypeEnum.DECIMAL.getName().equals(typeForMysql)){
             sql += typeForMysql+"("+ length +","+(decimalPoint==null?"0":decimalPoint)+")";
         } else if(MysqlColumnTypeEnum.ENUM.getName().equals(typeForMysql)){
-        	//sql += typeForMysql+"("+value+")";
-        	throw new BusinessException("暂不支持该列类型！");
+        	String[] enumValues = dynamicColumnManage.getEnumValue().split(",");
+        	String enumValue ="";
+        	for(String s:enumValues){
+        		enumValue +="'"+s.split("-")[0]+"',";
+        	}
+        	enumValue = enumValue.substring(0, enumValue.length()-1);
+        	sql += typeForMysql+"("+enumValue+")";
         } else {
             throw new BusinessException("未知列类型！");
         }
@@ -191,6 +216,13 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
             sql += " NULL ";
         } else {
             sql += " NOT NULL ";
+        }
+        if(dynamicColumnManage.getInsertDefaultValue()!=null){
+        	if("".equals(dynamicColumnManage.getInsertDefaultValue())){
+        		sql += " DEFAULT ''";
+        	} else {
+        		sql += " DEFAULT '"+dynamicColumnManage.getInsertDefaultValue()+"'";
+        	}
         }
         sql += " COMMENT '"+ dynamicColumnManage.getRemark() +"'";
         Map<String, Object> paraMap = new HashMap<String, Object>();

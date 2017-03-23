@@ -88,9 +88,78 @@
 										</div>
 									</div>
 									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="enumValue">枚举值<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" required id="enumValue" name="enumValue" placeholder="请输入枚举值,如（0-否,1-是）">
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
 										<label class="col-md-2 control-label" for="nullable">是否可为空<span style="color:red;">*</span></label>
 										<div class="col-md-10">
 											<select class="form-control" required id="nullable" name="nullable">
+												<option value="true" selected="selected">是</option>
+												<option value="false">否</option>
+											</select>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="insertDefaultValue">新增时默认值<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" required id="insertDefaultValue" name="insertDefaultValue" placeholder="请输入新增时默认值">
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="isQueryCondition">是否作为查询条件<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<select class="form-control" required id="isQueryCondition" name="isQueryCondition">
+												<option value="true" selected="selected">是</option>
+												<option value="false">否</option>
+											</select>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="queryConditionSymbol">查询条件符号<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<select class="form-control" required id="queryConditionSymbol" name="queryConditionSymbol">
+												<c:forEach items="${queryConditionSymbols}" var="symbol">
+													<option value="${symbol.index}">${symbol.desc}</option>
+												</c:forEach>
+											</select>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="queryDefaultValue">查询时默认值<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" required id="queryDefaultValue" name="queryDefaultValue" placeholder="请输入查询时默认值">
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="isAllowUpdate">是否允许修改<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<select class="form-control" required id="isAllowUpdate" name="isAllowUpdate">
+												<option value="true" selected="selected">是</option>
+												<option value="false">否</option>
+											</select>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="isListDisplay">列表时是否显示<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<select class="form-control" required id="isListDisplay" name="isListDisplay">
 												<option value="true" selected="selected">是</option>
 												<option value="false">否</option>
 											</select>
@@ -139,19 +208,36 @@ $(function() {
 	});
 	$("#typeForMysql").change(function(){
 		var value = $(this).val();
-		if("integer"==value || "varchar"==value){//长度启用，小数点数禁用
+		if("integer"==value || "varchar"==value){//长度启用，小数点数、枚举值禁用
 			disableAndRequiredControl("length",false,true);
 			disableAndRequiredControl("decimalPoint",true,false);
-		} else if("datetime"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数都禁用
+			disableAndRequiredControl("enumValue",true,false);
+		} else if("datetime"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数、枚举值都禁用
 			disableAndRequiredControl("length",true,false);
 			disableAndRequiredControl("decimalPoint",true,false);
-		} else if("double"==value || "decimal"==value){//长度和小数点数都启用
+			disableAndRequiredControl("enumValue",true,false);
+		} else if("double"==value || "decimal"==value){//长度和小数点数都启用，枚举值禁用
 			disableAndRequiredControl("length",false,true);
 			disableAndRequiredControl("decimalPoint",false,true);
-		} else if("enum"==value){
+			disableAndRequiredControl("enumValue",true,false);
+		} else if("bit"==value){//验证长度，禁用长度、小数点数、枚举值
+			disableAndRequiredControl("length",true,true);
+			disableAndRequiredControl("decimalPoint",true,false);
+			disableAndRequiredControl("enumValue",true,false);
+			$("#length").val("1");
+		} else if("enum"==value){//验证长度与枚举值，禁用小数点数
 			disableAndRequiredControl("length",true,false);
 			disableAndRequiredControl("decimalPoint",true,false);
-			bootbox.alert("该类型暂不支持！");
+			disableAndRequiredControl("enumValue",false,true);
+		}
+	});
+	$("#isQueryCondition").change(function(){
+		if("false"==$(this).val()){
+			disableAndRequiredControl("queryConditionSymbol",true,false);
+			disableAndRequiredControl("queryDefaultValue",true,false);
+		} else {
+			disableAndRequiredControl("queryConditionSymbol",false,true);
+			disableAndRequiredControl("queryDefaultValue",false,false);
 		}
 	});
 });
@@ -169,10 +255,6 @@ function disableAndRequiredControl(buttonId, disable,required) {
     }
 }
 function onSubmit(){
-	if("enum"==$("#typeForMysql").val()){
-		bootbox.alert("该类型暂不支持！");
-		return;
-	}
 	if(!validateForm("form")){
 		return;
 	}

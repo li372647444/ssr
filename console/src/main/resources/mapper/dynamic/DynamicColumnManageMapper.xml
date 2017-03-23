@@ -15,7 +15,14 @@
     <result column="nullable" property="nullable" jdbcType="BIT" />
     <result column="is_primary_key" property="isPrimaryKey" jdbcType="BIT" />
     <result column="is_autoincrement" property="isAutoincrement" jdbcType="BIT" />
+    <result column="insert_default_value" property="insertDefaultValue" jdbcType="VARCHAR" />
+    <result column="is_query_condition" property="isQueryCondition" jdbcType="BIT" />
+    <result column="query_condition_symbol" property="queryConditionSymbol" jdbcType="VARCHAR" />
+    <result column="query_default_value" property="queryDefaultValue" jdbcType="VARCHAR" />
+    <result column="is_allow_update" property="isAllowUpdate" jdbcType="BIT" />
+    <result column="is_list_display" property="isListDisplay" jdbcType="BIT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="is_system_field" property="isSystemField" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -23,7 +30,9 @@
   </resultMap>
    <select id="selectDynamicColumnManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT t.id,t.table_id,t.column_name,t.type_for_mysql,t.length,t.decimal_point,t.enum_value,t.nullable,
-    	t.is_primary_key,t.is_autoincrement,t.remark,t.create_time,t.create_user_id,t.update_time,t.update_user_id,
+    	t.is_primary_key,t.is_autoincrement,
+    	t.insert_default_value,t.is_query_condition,t.query_condition_symbol,t.query_default_value,t.is_allow_update,t.is_list_display,
+    	t.is_system_field,t.remark,t.create_time,t.create_user_id,t.update_time,t.update_user_id,
      	u1.name AS createUserName,
     	u2.name AS updateUserName
      FROM DYNAMIC_COLUMN_MANAGE t
@@ -35,5 +44,6 @@
         and t.column_name = #{columnName}
       </if>
     </where>
+    	ORDER BY t.id ASC
   </select>
 </mapper>
