@@ -53,6 +53,20 @@
 										</div>
 									</div>
 								</div>
+								<div class="form-body">
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="isSystemField">是否为系统默认添加字段</label>
+										<div class="col-md-10">
+											<select class="form-control" id="isSystemField" name="isSystemField">
+												<option value="">请选择</option>
+												<option value="0">否</option>
+												<option value="1">是</option>
+											</select>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="form-actions">
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
@@ -143,30 +157,6 @@ $(function() {
 						return "是";
 					}
 					return "<span style='color:red;'>否</span>";
-				}
-			},
-			{
-				property: 'isAutoincrement',
-				label: '是否自动递增',
-				align: 'center',
-				sortable: false,
-				render: function(val,row,index){
-					if(val==true){
-						return "是";
-					}
-					return "否";
-				}
-			},
-			{
-				property: 'isPrimaryKey',
-				label: '是否为主键',
-				align: 'center',
-				sortable: false,
-				render: function(val,row,index){
-					if(val==true){
-						return "是";
-					}
-					return "否";
 				}
 			},
 			{
@@ -291,8 +281,9 @@ $(function() {
 });
 function onSubmit(){
 	var columnName = $('#columnName').val();
+	var isSystemField = $('#isSystemField').val();
 	$('#grid').datagrid('reload',{
-		tableId:'${dynamicTableManage.id}',
+		isSystemField: isSystemField,
 		columnName: columnName
     });
 }

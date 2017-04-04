@@ -43,6 +43,9 @@
       <if test="columnName!=null and columnName!=''">
         and t.column_name = #{columnName}
       </if>
+      <if test="isSystemField!=null and isSystemField!=''">
+        and t.is_system_field = #{isSystemField}
+      </if>
     </where>
     	ORDER BY t.id ASC
   </select>
