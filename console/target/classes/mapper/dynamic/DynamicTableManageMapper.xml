@@ -6,16 +6,25 @@
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="primary_key_column_id" property="primaryKeyColumnId" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="primary_key_column_id" property="primaryKeyColumnId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectDynamicTableManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT id,create_time,remark,table_name FROM DYNAMIC_TABLE_MANAGE
+    SELECT t.id,t.table_name,t.remark,t.primary_key_column_id,
+    	t.create_time,t.create_user_id,t.update_time,t.update_user_id,
+    	u1.name AS createUserName,
+    	u2.name AS updateUserName
+    FROM DYNAMIC_TABLE_MANAGE t
+    	LEFT JOIN PRV_USER u1 on u1.id = t.create_user_id
+    	LEFT JOIN PRV_USER u2 on u2.id = t.update_user_id
     <where>
       <if test="tableName!=null and tableName!=''">
-        table_name like CONCAT('%',#{tableName},'%')
+        t.table_name like CONCAT('%',#{tableName},'%')
       </if>
     </where>
   </select>
