@@ -46,6 +46,15 @@
   	</foreach>
   </insert>
   
+  <!-- 修改 -->
+  <insert id="executeUpdateSql" parameterType="com.ssr.base.model.dynamic.DynamicManage" useGeneratedKeys="true" keyProperty="id">
+  	UPDATE ${tableName} SET 
+  	<foreach collection="updateValues" index="key" item="value" separator=",">
+  		${key} = #{value}
+  	</foreach>
+  	WHERE #{id}
+  </insert>
+  
   <!-- 查询 -->
   <select id="executeQuerySql" parameterType="com.ssr.base.model.dynamic.DynamicManage" resultType="java.util.HashMap">
   	SELECT * FROM ${tableName}

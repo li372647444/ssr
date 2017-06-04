@@ -1,6 +1,7 @@
 package com.ssr.base.model.dynamic;
 
 import java.util.List;
+import java.util.Map;
 
 public class DynamicManage {
 	
@@ -15,24 +16,22 @@ public class DynamicManage {
     private String tableName;
 
     /**
-     * 列   名
+     * 新增记录  （列名）
      */
     private List<String> colunmnNames;
-    
     /**
-     * 列   值
+     * 新增记录  （至）
      */
     private List<Object> colunmnValues;
-    
-    /**
-     * 判断 符号
-     */
-    private List<String> conditionSymbols;
     
     /**
      * 查询条件组装对象（列名 符号 值）
      */
     private List<QueryCondition> queryConditions;
+    /**
+     * 修改属性与值（  属性、值 ）
+     */
+    private Map<String,Object> updateValues;
     
     /**
      * 执行SQL
@@ -63,6 +62,22 @@ public class DynamicManage {
 		this.sql = sql;
 	}
 
+	public List<QueryCondition> getQueryConditions() {
+		return queryConditions;
+	}
+
+	public void setQueryConditions(List<QueryCondition> queryConditions) {
+		this.queryConditions = queryConditions;
+	}
+
+	public Map<String, Object> getUpdateValues() {
+		return updateValues;
+	}
+
+	public void setUpdateValues(Map<String, Object> updateValues) {
+		this.updateValues = updateValues;
+	}
+
 	public List<String> getColunmnNames() {
 		return colunmnNames;
 	}
@@ -77,21 +92,5 @@ public class DynamicManage {
 
 	public void setColunmnValues(List<Object> colunmnValues) {
 		this.colunmnValues = colunmnValues;
-	}
-
-	public List<String> getConditionSymbols() {
-		return conditionSymbols;
-	}
-
-	public void setConditionSymbols(List<String> conditionSymbols) {
-		this.conditionSymbols = conditionSymbols;
-	}
-
-	public List<QueryCondition> getQueryConditions() {
-		return queryConditions;
-	}
-
-	public void setQueryConditions(List<QueryCondition> queryConditions) {
-		this.queryConditions = queryConditions;
 	}
 }

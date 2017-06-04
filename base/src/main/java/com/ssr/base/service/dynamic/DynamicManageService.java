@@ -14,4 +14,6 @@ public interface DynamicManageService extends BaseService{
 	public List<Map<String, Object>> queryByMap(String tableName,Map<String, Object> reMap,int page,int pageSize);
 
 	public boolean deleteById(String dynamicTableName, int id);
+
+	public Map<String, Object> queryById(String tableName,int id);
 }

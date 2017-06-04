@@ -1,6 +1,7 @@
 package com.ssr.base.service.dynamic.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import com.ssr.base.model.dynamic.DynamicTableManage;
 import com.ssr.base.model.dynamic.QueryCondition;
 import com.ssr.base.service.dynamic.DynamicManageService;
 import com.ssr.base.service.impl.BaseServiceImpl;
+import com.ssr.base.util.constantenum.MysqlColumnTypeEnum;
+import com.ssr.base.util.constantenum.QueryConditionSymbolEnum;
 
 @Service
 public class DynamicManageServiceImpl extends BaseServiceImpl implements DynamicManageService {
@@ -84,32 +87,38 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 
 	@Override
 	public Map<String, Object> updateDynamicManage(String tableName,Integer id, Map<String, Object> reMap) {
-		DynamicTableManage query = new DynamicTableManage();
-		query.setTableName(tableName);
-		DynamicTableManage table = dynamicTableManageMapper.selectOne(query);
-		if(table==null){
-			throw new UserException("表记录不存在");
-		}
-		DynamicColumnManage queryC = new DynamicColumnManage();
-		queryC.setTableId(table.getId());
-		List<DynamicColumnManage> colunmns = dynamicColumnManageMapper.select(queryC);
-		if(colunmns==null || colunmns.isEmpty()){
-			throw new UserException("列记录不存在");
-		}
-		StringBuilder updateSQL = new StringBuilder("UPDATE " + table.getTableName() +" SET ");
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		DynamicTableManage table = selectByTableName(tableName);
+		List<DynamicColumnManage> colunmns = selectByTableId(table.getId());
+		//构造 动态 SQL 生成 对象
+		Map<String,Object> updateValues = new HashMap<String, Object>();
 		for(DynamicColumnManage c:colunmns){
 			String key = c.getColumnName();
-			if(reMap.containsKey(key)){
-				updateSQL.append(key+"="+reMap.get(key)+",");
+			if(c.getIsAllowUpdate() && reMap.containsKey(key)){
+				if((c.getTypeForMysql().equals(MysqlColumnTypeEnum.DATE.getName())
+					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.DATETIME.getName())
+					)
+					&& "".equals(reMap.get(key))){
+					updateValues.put(key, null);
+				} else {
+					updateValues.put(key, reMap.get(key));
+				}
+				
 			}
 		}
-		String whereSQL = " WHERE id = "+ id;
-		String updateSQLStr = updateSQL.toString();
-		updateSQLStr = updateSQLStr.substring(0,updateSQLStr.length()-1) + whereSQL;
-		if(isDebugEnabled()){
-			debug("updateSQL="+updateSQLStr);
+		if(updateValues!=null && updateValues.size()>0){
+			DynamicManage dm = new DynamicManage();
+			dm.setTableName(tableName);
+			dm.setId(id);
+			dm.setUpdateValues(updateValues);
+			dynamicTableManageMapper.executeUpdateSql(dm);
+			returnMap.put("id", dm.getId());
+		} else {
+			if(isDebugEnabled()){
+				debug("updateColunmnNames is null ");
+			}
 		}
-		return null;
+		return returnMap;
 	}
 
 	@Override
@@ -119,24 +128,14 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 		//构造 动态 SQL 生成 对象
 		DynamicManage dm = new DynamicManage();
 		dm.setTableName(tableName);
-		List<String> colunmnNames = new ArrayList<String>();
-		List<String> conditionSymbols = new ArrayList<String>();
-		List<Object> colunmnValues = new ArrayList<Object>();
 		List<QueryCondition> queryConditions = new ArrayList<QueryCondition>();
 		for(DynamicColumnManage c:colunmns){
 			String key = c.getColumnName();
 			if(reMap.containsKey(key)){
-				colunmnNames.add(key);
-				conditionSymbols.add(c.getQueryConditionSymbol());
-				colunmnValues.add(reMap.get(key));
 				queryConditions.add(new QueryCondition(key, c.getQueryConditionSymbol(), reMap.get(key)));
 			}
 		}
-		dm.setColunmnNames(colunmnNames);
-		dm.setConditionSymbols(conditionSymbols);
-		dm.setColunmnValues(colunmnValues);
 		dm.setQueryConditions(queryConditions);
-		//分页
 		PageHelper.startPage(page, pageSize);//debug("Service分页日志:page=" + page + "pageSize=" + pageSize);
 		return dynamicTableManageMapper.executeQuerySql(dm);
 	}
@@ -163,6 +162,17 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 		paraMap.put("sql", deleteSql.toString());
 		dynamicTableManageMapper.executeDMLSql(paraMap);
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> queryById(String tableName,int id) {
+		//构造 动态 SQL 生成 对象
+		DynamicManage dm = new DynamicManage();
+		dm.setTableName(tableName);
+		List<QueryCondition> queryConditions = new ArrayList<QueryCondition>();
+		queryConditions.add(new QueryCondition("id",QueryConditionSymbolEnum.EQUAL.getName(), id));
+		dm.setQueryConditions(queryConditions);
+		return dynamicTableManageMapper.executeQuerySql(dm).get(0);
 	}
 	
 }

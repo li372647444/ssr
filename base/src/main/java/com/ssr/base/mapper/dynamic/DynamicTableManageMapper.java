@@ -29,4 +29,10 @@ public interface DynamicTableManageMapper extends Mapper<DynamicTableManage> {
 	 * @return
 	 */
 	public List<Map<String, Object>> executeQuerySql(DynamicManage dm);
+
+	/**
+	 * 修改
+	 * @param dm
+	 */
+	public void executeUpdateSql(DynamicManage dm);
 }

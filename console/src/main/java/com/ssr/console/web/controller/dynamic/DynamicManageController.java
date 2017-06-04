@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -92,7 +91,6 @@ public class DynamicManageController extends BaseController {
 		ModelAndView mv = new ModelAndView("dynamic/addDynamicManage");
 		mv.addObject("table", table);
 		mv.addObject("columns", columns);
-		//mv.addObject("typesForMysql", MysqlColumnTypeEnum.values());
 		return mv;
 	}
 	
@@ -125,19 +123,38 @@ public class DynamicManageController extends BaseController {
 		return re;
 	}
 	
-	@RequestMapping(value = "/dynamicManage/update/{id}", method = RequestMethod.GET)
-	public ModelAndView updateManage(@PathVariable int id){
-		ModelAndView mv = new ModelAndView("manage/updateManage");
-		mv.addObject("manage", null);
+	@RequestMapping(value = "/dynamicManage/{name}/update/{id}", method = RequestMethod.GET)
+	public ModelAndView updateManage(@PathVariable String name,@PathVariable int id){
+		//查询动态表的表信息
+		DynamicTableManage table = dynamicTableManageService.queryByTableName(name);
+		//查询动态表的列信息
+		List<DynamicColumnManage> columns = dynamicColumnManageService.queryDynamicColumnManageByTableId(table.getId());
+		Map<String,Object> data = dynamicManageService.queryById(name,id);
+		ModelAndView mv = new ModelAndView("dynamic/updateDynamicManage");
+		mv.addObject("table", table);
+		mv.addObject("columns", columns);
+		mv.addObject("data", data);
 		return mv;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/dynamicManage/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/dynamicManage/{dynamicTableName}/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object updateManage(Model model) throws Exception{
+	public Object updateManage(@PathVariable String dynamicTableName,HttpServletRequest req) throws Exception{
+		Map<String, Object> reMap = getRequestParameterAsMap(req);
+		reMap.remove("dynamicTableName");//除去 动态表名 的参数（该字段非动态表的字段）
+		Map<String, Object> resultMap = null;
+		if(!reMap.isEmpty()){
+			PrvUser user  = (PrvUser) req.getSession().getAttribute(SystemConstants.SESSION_USER);
+			Object id = reMap.get("id");
+			reMap.remove("id");//除去 id 的参数（该字段非手动天机的字段  或者 该字段用于修改条件）
+			//修改
+			reMap.put("update_time", new Date());
+			reMap.put("update_user_id", user.getId());
+			resultMap = dynamicManageService.updateDynamicManage(dynamicTableName,Integer.valueOf(id.toString()),reMap);
+		}
 		AjaxSupport re = new AjaxSupport();
-		re.setModel(null);
+		re.setModel(resultMap);
 		return re;
 	}
 	
