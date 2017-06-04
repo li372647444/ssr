@@ -82,7 +82,7 @@
 									<div class="form-group form-md-line-input">
 										<label class="col-md-2 control-label" for="decimalPoint">小数点数<span style="color:red;">*</span></label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" required id="decimalPoint" name="decimalPoint" placeholder="请输入小数点数">
+											<input type="text" class="form-control" disabled id="decimalPoint" name="decimalPoint" placeholder="请输入小数点数">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -118,17 +118,18 @@
 										<label class="col-md-2 control-label" for="isQueryCondition">是否作为查询条件<span style="color:red;">*</span></label>
 										<div class="col-md-10">
 											<select class="form-control" required id="isQueryCondition" name="isQueryCondition">
-												<option value="true" selected="selected">是</option>
-												<option value="false">否</option>
+												<option value="false" selected="selected">否</option>
+												<option value="true">是</option>
 											</select>
 											<div class="form-control-focus">
 											</div>
 										</div>
 									</div>
-									<div class="form-group form-md-line-input">
+									<div class="form-group form-md-line-input" style="display: none;">
 										<label class="col-md-2 control-label" for="queryConditionSymbol">查询条件符号<span style="color:red;">*</span></label>
 										<div class="col-md-10">
 											<select class="form-control" required id="queryConditionSymbol" name="queryConditionSymbol">
+												<option value="">请选择</option>
 												<c:forEach items="${queryConditionSymbols}" var="symbol">
 													<option value="${symbol.index}">${symbol.desc}</option>
 												</c:forEach>
@@ -137,7 +138,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group form-md-line-input">
+									<div class="form-group form-md-line-input" style="display: none;">
 										<label class="col-md-2 control-label" for="queryDefaultValue">查询时默认值</label>
 										<div class="col-md-10">
 											<input type="text" class="form-control" id="queryDefaultValue" name="queryDefaultValue" placeholder="请输入查询时默认值">
@@ -171,6 +172,14 @@
 										<label class="col-md-2 control-label" for="remark">备注<span style="color:red;">*</span></label>
 										<div class="col-md-10">
 											<input type="text" class="form-control" required id="remark" name="remark" placeholder="请输入备注">
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="fieldSerialNumber">字段序号<span style="color:red;">*</span></label>
+										<div class="col-md-10">
+											<input type="number" class="form-control" required id="fieldSerialNumber" name="fieldSerialNumber" placeholder="请输入字段序号">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -224,63 +233,50 @@ $(function() {
 		isListDisplay:'${dynamicColumnManage.isListDisplay}',
 		remark:'${dynamicColumnManage.remark}'
 	});
-	$("#isQueryCondition").change(function(){
-		if("false"==$(this).val()){
-			disableAndRequiredControl("queryConditionSymbol",true,false);
-			disableAndRequiredControl("queryDefaultValue",true,false);
+	$("#isQueryCondition").change(function(){//是否作为查询条件
+		if("true" == $(this).val()){
+			disableAndRequiredAndShowControl("queryConditionSymbol",false,true,true);//查询条件符号
+			disableAndRequiredAndShowControl("queryDefaultValue",false,false,true);//查询时默认值
 		} else {
-			disableAndRequiredControl("queryConditionSymbol",false,true);
-			disableAndRequiredControl("queryDefaultValue",false,false);
+			disableAndRequiredAndShowControl("queryConditionSymbol",true,false,false);//查询条件符号
+			disableAndRequiredAndShowControl("queryDefaultValue",true,false,false);//查询时默认值
 		}
 	});
 });
 
 function changeTypeForMysql(value){
+	//disableAndRequiredAndShowControl("nullable",false,true,true);//是否可为空
+	//disableAndRequiredAndShowControl("insertDefaultValue",false,false,true);//新增时默认值
+	//disableAndRequiredAndShowControl("isQueryCondition",false,true,true);//是否作为查询条件
+	//disableAndRequiredAndShowControl("isAllowUpdate",false,true,true);//是否允许修改
+	//disableAndRequiredAndShowControl("isListDisplay",false,true,true);//列表时是否显示
 	if("integer"==value || "varchar"==value){//长度启用，小数点数、枚举值禁用
-		disableAndRequiredControl("length",false,true);
-		disableAndRequiredControl("decimalPoint",true,false);
-		disableAndRequiredControl("enumValue",true,false);
-	} else if("datetime"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数、枚举值都禁用
-		disableAndRequiredControl("length",true,false);
-		disableAndRequiredControl("decimalPoint",true,false);
-		disableAndRequiredControl("enumValue",true,false);
+		disableAndRequiredAndShowControl("length",false,true,true);//长度
+		disableAndRequiredAndShowControl("decimalPoint",true,false,false);//小数点数
+		disableAndRequiredAndShowControl("enumValue",true,false,false);//枚举值
+	} else if("datetime"==value || "time"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数、枚举值都禁用
+		disableAndRequiredAndShowControl("length",true,false,false);
+		disableAndRequiredAndShowControl("decimalPoint",true,false,false);
+		disableAndRequiredAndShowControl("enumValue",true,false,false);
 	} else if("double"==value || "decimal"==value){//长度和小数点数都启用，枚举值禁用
-		disableAndRequiredControl("length",false,true);
-		disableAndRequiredControl("decimalPoint",false,true);
-		disableAndRequiredControl("enumValue",true,false);
-	} else if("bit"==value){//验证长度，禁用长度、小数点数、枚举值
-		disableAndRequiredControl("length",true,true);
-		disableAndRequiredControl("decimalPoint",true,false);
-		disableAndRequiredControl("enumValue",true,false);
-		$("#length").val("1");
+		disableAndRequiredAndShowControl("length",false,true,true);
+		disableAndRequiredAndShowControl("decimalPoint",false,true,true);
+		disableAndRequiredAndShowControl("enumValue",true,false,false);
+	} else if("bit"==value){
+		disableAndRequiredAndShowControl("length",false,false,true);
+		disableAndRequiredAndShowControl("decimalPoint",true,false,false);
+		disableAndRequiredAndShowControl("enumValue",true,false,false);
 	} else if("enum"==value){//验证长度与枚举值，禁用小数点数
-		disableAndRequiredControl("length",true,false);
-		disableAndRequiredControl("decimalPoint",true,false);
-		disableAndRequiredControl("enumValue",false,true);
+		disableAndRequiredAndShowControl("length",true,false,false);
+		disableAndRequiredAndShowControl("decimalPoint",true,false,false);
+		disableAndRequiredAndShowControl("enumValue",false,true,true);
 	}
 	//BLOB, TEXT, GEOMETRY or JSON column 'content' can't have a default value
 	if("text"==value || "blob"==value){
-		disableAndRequiredControl("insertDefaultValue",true,false);
-		$("#insertDefaultValue").parent().parent().hide();
-	} else{
-		disableAndRequiredControl("insertDefaultValue",false,false);
-		$("#insertDefaultValue").parent().parent().show();
+		disableAndRequiredAndShowControl("insertDefaultValue",true,false,false);
 	}
 }
 
-function disableAndRequiredControl(buttonId, disable,required) {
-	$("#"+buttonId).val("");
-    if(disable){
-        $("#" + buttonId).attr("disabled", true);
-    } else {
-        $("#" + buttonId).attr("disabled", false);
-    }
-    if(required){
-        $("#" + buttonId).attr("required", true);
-    } else {
-        $("#" + buttonId).attr("required", false);
-    }
-}
 function onSubmit(){
 	if(!validateForm("form")){
 		return;

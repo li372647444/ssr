@@ -126,9 +126,10 @@
 										</div>
 									</div>
 									<div class="form-group form-md-line-input" style="display: none;">
-										<label class="col-md-2 control-label" for="queryConditionSymbol">查询条件符号<span style="color:red;">*</span></label>
+										<label class="col-md-2 control-label" for="queryConditionSymbol">查询条件符号</label>
 										<div class="col-md-10">
-											<select class="form-control" required id="queryConditionSymbol" name="queryConditionSymbol">
+											<select class="form-control" id="queryConditionSymbol" name="queryConditionSymbol">
+												<option value="">请选择</option>
 												<c:forEach items="${queryConditionSymbols}" var="symbol">
 													<option value="${symbol.index}">${symbol.desc}</option>
 												</c:forEach>
@@ -230,19 +231,6 @@ $(function() {
 	$("#typeForMysql").val("integer");
 	changeTypeForMysql("integer");
 });
-function disableAndRequiredControl(buttonId, disable,required) {
-	$("#"+buttonId).val("");
-    if(disable){
-        $("#" + buttonId).attr("disabled", true);
-    } else {
-        $("#" + buttonId).attr("disabled", false);
-    }
-    if(required){
-        $("#" + buttonId).attr("required", true);
-    } else {
-        $("#" + buttonId).attr("required", false);
-    }
-}
 
 function changeTypeForMysql(value){
 	//disableAndRequiredAndShowControl("nullable",false,true,true);//是否可为空
@@ -254,7 +242,7 @@ function changeTypeForMysql(value){
 		disableAndRequiredAndShowControl("length",false,true,true);//长度
 		disableAndRequiredAndShowControl("decimalPoint",true,false,false);//小数点数
 		disableAndRequiredAndShowControl("enumValue",true,false,false);//枚举值
-	} else if("datetime"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数、枚举值都禁用
+	} else if("datetime"==value || "time"==value || "date"==value || "text"==value || "blob"==value){//长度和小数点数、枚举值都禁用
 		disableAndRequiredAndShowControl("length",true,false,false);
 		disableAndRequiredAndShowControl("decimalPoint",true,false,false);
 		disableAndRequiredAndShowControl("enumValue",true,false,false);
@@ -278,9 +266,11 @@ function changeTypeForMysql(value){
 }
 
 function onSubmit(){
+	console.log("1111");
 	if(!validateForm("form")){
 		return;
 	}
+	console.log("222");
 	submitForm("form", "submit", "", "id");
 }
 function onReset(){

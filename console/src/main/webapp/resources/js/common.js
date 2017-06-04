@@ -165,21 +165,30 @@ function toDecimal(x) {
 }
 
 //是否禁用 必填 显示 控件
-function disableAndRequiredAndShowControl(buttonId,disable,required,show) {
-	$("#"+buttonId).val("");
+function disableAndRequiredAndShowControl(controlId,disable,required,show) {
+	var controlId = $("#"+controlId);
+	$(controlId).val("");
     if(disable){
-        $("#" + buttonId).attr("disabled", true);
+    	$(controlId).attr("disabled", true);
     } else {
-        $("#" + buttonId).attr("disabled", false);
+    	$(controlId).attr("disabled", false);
     }
     if(required){
-        $("#" + buttonId).attr("required", true);
+    	$(controlId).attr("required", true);
+    	var temp = $(controlId).parent().prev().html();
+    	if(temp.indexOf('<span style="color:red;">*</span>')<0){
+    		temp += '<span style="color:red;">*</span>';
+    		$(controlId).parent().prev().html(temp);
+    	}
     } else {
-        $("#" + buttonId).attr("required", false);
+    	$(controlId).attr("required", false);
+    	var temp = $(controlId).parent().prev().html();
+    	temp.replace('<span style="color:red;">*</span>','');
+    	$(controlId).parent().prev().html(temp);
     }
     if(show){
-        $("#" + buttonId).parent().parent().show();
+    	$(controlId).parent().parent().show();
     } else {
-        $("#" + buttonId).parent().parent().hide();
+    	$(controlId).parent().parent().hide();
     }
 }

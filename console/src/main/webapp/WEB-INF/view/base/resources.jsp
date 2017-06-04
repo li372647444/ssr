@@ -22,6 +22,7 @@
 <link href="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
 <link href="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<link href="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css"/>
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
 <link href="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
@@ -54,6 +55,7 @@
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN CORE FLOT -->
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/flot/jquery.flot.min.js"></script>

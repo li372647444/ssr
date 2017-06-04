@@ -62,7 +62,7 @@
 													</div>
 												</div>
 											</c:if>
-											<c:if test="${column.typeForMysql=='datetime' || column.typeForMysql=='date'}">
+											<c:if test="${column.typeForMysql=='datetime' || column.typeForMysql=='date' || column.typeForMysql=='time'}">
 												<div class="form-group form-md-line-input">
 													<label class="col-md-2 control-label" for="${column.columnName}">${column.remark}
 														<c:if test="${column.nullable!=true}">
@@ -145,6 +145,13 @@ $(function() {
 		autoclose: true,
 		language: 'zh-CN'
     });
+	$('.time').timepicker({
+	    autoclose: true,
+        minuteStep: 1,
+        showSeconds: true,
+        showMeridian: false,
+        defaultTime: false
+	});
 	$('.date').datepicker({
 		format: 'yyyy-mm-dd',
 		autoclose: true,

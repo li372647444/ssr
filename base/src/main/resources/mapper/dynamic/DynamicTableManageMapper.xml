@@ -52,14 +52,13 @@
   	<foreach collection="updateValues" index="key" item="value" separator=",">
   		${key} = #{value}
   	</foreach>
-  	WHERE #{id}
+  	WHERE #{id} and state = '1'
   </insert>
   
   <!-- 查询 -->
   <select id="executeQuerySql" parameterType="com.ssr.base.model.dynamic.DynamicManage" resultType="java.util.HashMap">
   	SELECT * FROM ${tableName}
-  	<if test="colunmnNames!=null and colunmnNames.size()>0 
-  		and conditionSymbols!=null and conditionSymbols.size()>0">
+  	<if test="queryConditions!=null and queryConditions.size()>0">
   	<where>
 	  	<foreach collection="queryConditions" item="queryCondition" index="index" separator=" and ">
 	  		${queryCondition.colunmnName}

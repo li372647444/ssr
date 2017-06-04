@@ -100,12 +100,15 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         Integer decimalPoint = dynamicColumnManage.getDecimalPoint();
         if(MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql) 
         		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)
-        		|| MysqlColumnTypeEnum.BIT.getName().equals(typeForMysql)){
+        		/*|| MysqlColumnTypeEnum.BIT.getName().equals(typeForMysql)*/
+        		){
                 sql += typeForMysql+"("+ length +")";
         } else if(MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.TIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.TEXT.getName().equals(typeForMysql)
-        		|| MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql)){
+        		/*|| MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql)*/
+        		){
         	sql += typeForMysql;
         } else if(MysqlColumnTypeEnum.DOUBLE.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DECIMAL.getName().equals(typeForMysql)){
@@ -190,12 +193,15 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         Integer decimalPoint = dynamicColumnManage.getDecimalPoint();
         if(MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql) 
         		|| MysqlColumnTypeEnum.VARCHAR.getName().equals(typeForMysql)
-        		|| MysqlColumnTypeEnum.BIT.getName().equals(typeForMysql)){
+        		/*|| MysqlColumnTypeEnum.BIT.getName().equals(typeForMysql)*/
+        		){
             sql += typeForMysql+"("+ length +")";
         } else if(MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
+        		|| MysqlColumnTypeEnum.TIME.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.TEXT.getName().equals(typeForMysql)
-        		|| MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql)){
+        		/*|| MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql)*/
+        		){
         	sql += typeForMysql;
         } else if(MysqlColumnTypeEnum.DOUBLE.getName().equals(typeForMysql)
         		|| MysqlColumnTypeEnum.DECIMAL.getName().equals(typeForMysql)){
@@ -224,7 +230,8 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         if(dynamicColumnManage.getInsertDefaultValue()!=null 
         	&& !"".equals(dynamicColumnManage.getInsertDefaultValue())
         	&& !MysqlColumnTypeEnum.TEXT.getName().equals(typeForMysql)
-    		&& !MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql))
+    		/*&& !MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql)*/
+    		)
         	{
         	sql += " DEFAULT '"+dynamicColumnManage.getInsertDefaultValue()+"'";
         }

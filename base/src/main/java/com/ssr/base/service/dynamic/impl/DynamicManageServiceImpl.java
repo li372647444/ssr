@@ -1,7 +1,6 @@
 package com.ssr.base.service.dynamic.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +102,6 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 				} else {
 					updateValues.put(key, reMap.get(key));
 				}
-				
 			}
 		}
 		if(updateValues!=null && updateValues.size()>0){
