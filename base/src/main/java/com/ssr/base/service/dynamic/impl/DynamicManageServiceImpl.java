@@ -68,7 +68,20 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 			String key = c.getColumnName();
 			if(reMap.containsKey(key)){
 				colunmnNames.add(key);
-				colunmnValues.add(reMap.get(key));
+				if("".equals(reMap.get(key)) &&
+					(MysqlColumnTypeEnum.INTEGER.getName().equals(c.getTypeForMysql())
+					|| MysqlColumnTypeEnum.DATETIME.getName().equals(c.getTypeForMysql())
+					|| MysqlColumnTypeEnum.DATE.getName().equals(c.getTypeForMysql())
+					|| MysqlColumnTypeEnum.TIME.getName().equals(c.getTypeForMysql())
+					|| MysqlColumnTypeEnum.DOUBLE.getName().equals(c.getTypeForMysql())
+					|| MysqlColumnTypeEnum.DECIMAL.getName().equals(c.getTypeForMysql())
+					|| MysqlColumnTypeEnum.ENUM.getName().equals(c.getTypeForMysql())
+					)
+				){
+					colunmnValues.add(null);
+				} else {
+					colunmnValues.add(reMap.get(key));
+				}
 			}
 		}
 		dm.setColunmnNames(colunmnNames);
@@ -94,8 +107,13 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 		for(DynamicColumnManage c:colunmns){
 			String key = c.getColumnName();
 			if(c.getIsAllowUpdate() && reMap.containsKey(key)){
-				if((c.getTypeForMysql().equals(MysqlColumnTypeEnum.DATE.getName())
+				if((c.getTypeForMysql().equals(MysqlColumnTypeEnum.INTEGER.getName())
 					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.DATETIME.getName())
+					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.DATE.getName())
+					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.TIME.getName())
+					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.DOUBLE.getName())
+					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.DECIMAL.getName())
+					|| c.getTypeForMysql().equals(MysqlColumnTypeEnum.ENUM.getName())
 					)
 					&& "".equals(reMap.get(key))){
 					updateValues.put(key, null);

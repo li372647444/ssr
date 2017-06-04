@@ -117,7 +117,7 @@ $(function() {
 				listDisplaycolumns.push({"property":"${column.columnName}","label":"${column.remark}","align":'center',"sortable":false});
 			}
 		}
-		if("${column.isQueryCondition}"){
+		if("${column.isQueryCondition}"=='true'){
 			queryColumns.push({"columnName":"${column.columnName}"});
 		}
 	</c:forEach>
@@ -142,7 +142,6 @@ function onSubmit(){
 		var columnName = queryColumns[index].columnName;
 		data[columnName] = $("#"+columnName).val();
 	}
-	console.log(data);
 	$('#grid').datagrid('reload',data);
 }
 function onReset(){
