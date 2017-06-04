@@ -49,7 +49,7 @@ public class RoleController extends BaseController {
 			moduleId = "SSR_C_SYS", moduleName = "系统管理", moduleOrder = 1)
 	@RequestMapping(value = "/addSysRole", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addSysRole(PrvRole role, HttpServletRequest req){
+	public Object addSysRole(PrvRole role, HttpServletRequest req) throws Exception{
 		role.setCreateTime(new Date());
 		role.setCreateUserId(((PrvUser)req.getSession().getAttribute(SystemConstants.SESSION_USER)).getId());
 		roleService.saveRole(role, true);
@@ -72,7 +72,7 @@ public class RoleController extends BaseController {
 			moduleId = "SSR_C_SYS", moduleName = "系统管理", moduleOrder = 1)
 	@RequestMapping(value = "/updateSysRole", method = RequestMethod.POST)
 	@ResponseBody
-	public Object updateSysRole(PrvRole role){
+	public Object updateSysRole(PrvRole role) throws Exception{
 		roleService.saveRole(role, true);
 		AjaxSupport<PrvRole> re = new AjaxSupport<PrvRole>();
 		re.setModel(role);

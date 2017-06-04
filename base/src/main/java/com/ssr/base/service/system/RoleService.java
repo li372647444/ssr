@@ -9,7 +9,7 @@ import com.ssr.base.service.BaseService;
 
 public interface RoleService extends BaseService {
 	public PrvRole queryRoleById(Object id);
-	public int saveRole(PrvRole role, boolean saveSelective);
+	public int saveRole(PrvRole role, boolean saveSelective) throws Exception;
 	public List<PrvRole> queryRoleByMap(Map<String, Object> paraMap, int page, int pageSize);
 	public List<PrvRole> queryAllRole();
 	public List<PrvRoleFunction> queryFunctionByRoleId(int roleId);

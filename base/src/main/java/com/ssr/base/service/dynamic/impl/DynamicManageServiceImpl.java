@@ -73,9 +73,6 @@ public class DynamicManageServiceImpl extends BaseServiceImpl implements Dynamic
 		dm.setColunmnValues(colunmnValues);
 		if(colunmnNames.size()>0){
 			dynamicTableManageMapper.executeInsertSql(dm);
-			if(isDebugEnabled()){
-				debug("=====>    insert id ="+dm.getId());
-			}
 			returnMap.put("id", dm.getId());
 		} else {
 			if(isDebugEnabled()){

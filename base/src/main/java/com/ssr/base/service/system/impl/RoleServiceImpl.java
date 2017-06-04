@@ -32,7 +32,7 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 		return prvRoleMapper.selectByPrimaryKey(id);
 	}
 	
-	public int saveRole(PrvRole role, boolean saveSelective){
+	public int saveRole(PrvRole role, boolean saveSelective) throws Exception{
 		int result;
 		if(saveSelective){
 			if(role.getId() != null){

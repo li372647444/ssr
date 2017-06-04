@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.ssr.base.exception.BusinessException;
-import com.ssr.base.exception.UserException;
 import com.ssr.base.mapper.dynamic.DynamicColumnManageMapper;
 import com.ssr.base.mapper.dynamic.DynamicTableManageMapper;
 import com.ssr.base.model.dynamic.DynamicColumnManage;
@@ -143,7 +142,7 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
         return  dynamicColumnManage;
 	}
 	@Override
-	public DynamicColumnManage saveDynamicColumnManage(DynamicColumnManage dynamicColumnManage) {
+	public DynamicColumnManage saveDynamicColumnManage(DynamicColumnManage dynamicColumnManage) throws Exception {
 		if(dynamicColumnManage == null){
             throw new BusinessException("The parameter (dynamicColumnManage) must not be null.");
         }
@@ -219,32 +218,22 @@ public class DynamicColumnManageServiceImpl extends BaseServiceImpl implements D
             sql += " NOT NULL ";
         }
         //BLOB, TEXT, GEOMETRY or JSON column 'content' can't have a default value
+        if(isDebugEnabled()){
+        	debug("dynamicColumnManage.getInsertDefaultValue()="+dynamicColumnManage.getInsertDefaultValue());
+        }
         if(dynamicColumnManage.getInsertDefaultValue()!=null 
         	&& !"".equals(dynamicColumnManage.getInsertDefaultValue())
         	&& !MysqlColumnTypeEnum.TEXT.getName().equals(typeForMysql)
     		&& !MysqlColumnTypeEnum.BLOB.getName().equals(typeForMysql))
         	{
         	sql += " DEFAULT '"+dynamicColumnManage.getInsertDefaultValue()+"'";
-        	/*if("".equals(dynamicColumnManage.getInsertDefaultValue())){
-        		if(!MysqlColumnTypeEnum.INTEGER.getName().equals(typeForMysql)
-        			&& !MysqlColumnTypeEnum.DATETIME.getName().equals(typeForMysql)
-        			&& !MysqlColumnTypeEnum.DATE.getName().equals(typeForMysql)
-        			){
-        			sql += " DEFAULT ''";
-        		}
-        	} else {
-        		sql += " DEFAULT '"+dynamicColumnManage.getInsertDefaultValue()+"'";
-        	}*/
         }
         sql += " COMMENT '"+ dynamicColumnManage.getRemark() +"'";
         Map<String, Object> paraMap = new HashMap<String, Object>();
         paraMap.put("sql", sql.toString());
         dynamicTableManageMapper.executeDDLSql(paraMap);
         
-        //TODO:
-        throw new UserException("test affair!");
-        
-        //return dynamicColumnManage;
+        return dynamicColumnManage;
 	}
 	@Override
 	public void deleteDynamicColumnManage(Integer id) {

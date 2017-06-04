@@ -102,12 +102,24 @@ $(function() {
 	QuickSidebar.init();
 	initMenu("_dynamic_dynamicManage_"+'${table.tableName}'+"_list");
 	<c:forEach items="${columns}" var="column">
-		<c:if test="${column.isListDisplay==true}">
-			listDisplaycolumns.push({"property":"${column.columnName}","label":"${column.remark}","align":'center',"sortable":false});
-		</c:if>
-		<c:if test="${column.isQueryCondition==true}">
+		if("${column.isListDisplay}"=='true'){
+			if("${column.typeForMysql}"=='enum'){
+				listDisplaycolumns.push({"property":"${column.columnName}","label":"${column.remark}","align":'center',"sortable":false,"render": function(val,row,index){
+						<c:forEach items="${column.enumValue}" var="enumValue">
+							if("${enumValue.split('-')[0]}"==val){
+								return "${enumValue.split('-')[1]}";
+							}
+						</c:forEach>
+						return "";
+					}
+				});
+			} else {
+				listDisplaycolumns.push({"property":"${column.columnName}","label":"${column.remark}","align":'center',"sortable":false});
+			}
+		}
+		if("${column.isQueryCondition}"){
 			queryColumns.push({"columnName":"${column.columnName}"});
-		</c:if>
+		}
 	</c:forEach>
 	
 	var optFunction = function(val,row,index){

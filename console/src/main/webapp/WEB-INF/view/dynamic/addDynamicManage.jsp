@@ -48,7 +48,36 @@
 								<div class="form-body">
 									<c:forEach items="${columns}" var="column">
 										<c:if test="${column.isSystemField!=true}">
-											<c:if test="${column.typeForMysql=='varchar' || column.typeForMysql=='text'}">
+											<c:if test="${column.typeForMysql=='integer' || column.typeForMysql=='double' || column.typeForMysql=='decimal'}">
+												<div class="form-group form-md-line-input">
+													<label class="col-md-2 control-label" for="${column.columnName}">${column.remark}
+														<c:if test="${column.nullable!=true}">
+															<span style="color:red;">*</span>
+														</c:if>
+													</label>
+													<div class="col-md-10">
+														<input type="number" class="form-control" <c:if test='${column.nullable}!=true'>required</c:if> id="${column.columnName}" name="${column.columnName}" placeholder="请输入${column.remark}">
+														<div class="form-control-focus">
+														</div>
+													</div>
+												</div>
+											</c:if>
+											<c:if test="${column.typeForMysql=='datetime' || column.typeForMysql=='date'}">
+												<div class="form-group form-md-line-input">
+													<label class="col-md-2 control-label" for="${column.columnName}">${column.remark}
+														<c:if test="${column.nullable!=true}">
+															<span style="color:red;">*</span>
+														</c:if>
+													</label>
+													<div class="col-md-10">
+														<input type="text" class="form-control ${column.typeForMysql}" <c:if test='${column.nullable}!=true'>required</c:if> id="${column.columnName}" name="${column.columnName}" placeholder="请输入${column.remark}">
+														<div class="form-control-focus">
+														</div>
+													</div>
+												</div>
+											</c:if>
+											<c:if test="${column.typeForMysql=='varchar' || column.typeForMysql=='text' 
+												|| column.typeForMysql=='blob'}">
 												<div class="form-group form-md-line-input">
 													<label class="col-md-2 control-label" for="${column.columnName}">${column.remark}
 														<c:if test="${column.nullable!=true}">
@@ -57,6 +86,25 @@
 													</label>
 													<div class="col-md-10">
 														<input type="text" class="form-control" <c:if test='${column.nullable}!=true'>required</c:if> id="${column.columnName}" name="${column.columnName}" placeholder="请输入${column.remark}">
+														<div class="form-control-focus">
+														</div>
+													</div>
+												</div>
+											</c:if>
+											<c:if test="${column.typeForMysql=='enum'}">
+												<div class="form-group form-md-line-input">
+													<label class="col-md-2 control-label" for="${column.columnName}">${column.remark}
+														<c:if test="${column.nullable!=true}">
+															<span style="color:red;">*</span>
+														</c:if>
+													</label>
+													<div class="col-md-10">
+														<select class="form-control" id="${column.columnName}" name="${column.columnName}" <c:if test='${column.nullable}!=true'>required</c:if>>
+															<option value="">请选择</option>
+															<c:forEach items="${column.enumValue}" var="enum_value">
+																<option value="${enum_value.split('-')[0]}">${enum_value.split('-')[1]}</option>
+															</c:forEach>
+														</select>
 														<div class="form-control-focus">
 														</div>
 													</div>
@@ -92,6 +140,16 @@ $(function() {
 	Layout.init();
 	QuickSidebar.init();
 	initMenu("_dynamic_dynamicManage_"+'${table.tableName}'+"_list");
+	$('.datetime').datepicker({
+		format: 'yyyy-mm-dd',
+		autoclose: true,
+		language: 'zh-CN'
+    });
+	$('.date').datepicker({
+		format: 'yyyy-mm-dd',
+		autoclose: true,
+		language: 'zh-CN'
+    });
 });
 function onSubmit(){
 	if(!validateForm("form")){

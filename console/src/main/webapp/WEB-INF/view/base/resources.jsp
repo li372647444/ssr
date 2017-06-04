@@ -52,6 +52,8 @@
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/datagrid/datagrid.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN CORE FLOT -->
 <script src="<%=request.getContextPath()%>/resources/metronic/theme/assets/global/plugins/flot/jquery.flot.min.js"></script>

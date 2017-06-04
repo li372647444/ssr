@@ -13,7 +13,7 @@ public interface DynamicColumnManageService extends BaseService{
 	public List<DynamicColumnManage> queryDynamicColumnManageByMap(Map<String, Object> requestParameterAsMap, int page,int pageSize);
 	
 	public DynamicColumnManage updateDynamicColumnManage(DynamicColumnManage dynamicColumnManage);
-	public DynamicColumnManage saveDynamicColumnManage(DynamicColumnManage dynamicColumnManage);
+	public DynamicColumnManage saveDynamicColumnManage(DynamicColumnManage dynamicColumnManage) throws Exception ;
 	public void deleteDynamicColumnManage(Integer id);
 	public List<DynamicColumnManage> queryDynamicColumnManageByTableId(Integer tableId);
 	

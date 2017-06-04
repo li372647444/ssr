@@ -28,7 +28,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		return prvUserMapper.selectByPrimaryKey(id);
 	}
 
-	public int saveUser(PrvUser user, boolean saveSelective) {
+	public int saveUser(PrvUser user, boolean saveSelective) throws Exception {
 		int result;
 		if(saveSelective){
 			if(user.getId() != null){
@@ -73,7 +73,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		return prvUserRoleMapper.selectOne(userRole);
 	}
 	
-	public void saveUserAndUserRole(PrvUser user, boolean saveSelective, int roleId, int customerId){
+	public void saveUserAndUserRole(PrvUser user, boolean saveSelective, int roleId, int customerId) throws Exception{
 		saveUser(user, saveSelective);
 		
 		PrvUserRole ur = new PrvUserRole();
