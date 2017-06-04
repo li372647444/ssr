@@ -5,7 +5,7 @@ import com.ssr.base.util.properties.PropertiesHelper;
 /**
  * 全局Properties配置读取工具
  *
- * @author PengLian
+ * @author 
  */
 public class SystemConfig {
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssr.base.mapper.system.PrvRoleFunctionMapper" >
+  <resultMap id="BaseResultMap" type="com.ssr.base.model.system.PrvRoleFunction" >
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="function_id" property="functionId" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * 全局Filter,处理加载全局数据资源到内存中
  *
- * @author PengLian
+ * @author 
  */
 public class GlobalFilter implements Filter {
 

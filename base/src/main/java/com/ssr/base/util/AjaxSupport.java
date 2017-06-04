@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * ajax请求返回结构封装
  *
- * @author PengLian
+ * @author 
  */
 public class AjaxSupport<T> {
     /**

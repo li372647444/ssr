@@ -24,7 +24,7 @@ import com.ssr.base.util.security.Cryption;
 /**
  * 所有AppController基类,必须继承
  *
- * @author PengLian
+ * @author 
  */
 public abstract class AppBaseController {
 	

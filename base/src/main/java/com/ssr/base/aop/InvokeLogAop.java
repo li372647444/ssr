@@ -6,7 +6,7 @@ import org.aspectj.lang.JoinPoint;
 /**
  * 监控方法执行时间,压力测试时开启,正式环境请关闭
  *
- * @author PengLian
+ * @author 
  */
 public class InvokeLogAop {
 

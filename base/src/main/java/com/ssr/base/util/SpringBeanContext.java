@@ -9,7 +9,7 @@ import org.springframework.web.context.WebApplicationContext;
 /**
  * 获取SpringBeanContext中通过WebContext注入的Bean
  *
- * @author PengLian
+ * @author 
  */
 public class SpringBeanContext {
 

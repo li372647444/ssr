@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSessionListener;
 /**
  * Session监听,在session创建或过期退出时处理相关业务
  *
- * @author PengLian
+ * @author 
  */
 public class SessionListener implements HttpSessionListener {
 

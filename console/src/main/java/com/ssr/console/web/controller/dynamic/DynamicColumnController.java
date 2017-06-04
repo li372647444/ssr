@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.ssr.base.model.dynamic.DynamicColumnManage;
+import com.ssr.base.model.dynamic.DynamicTableManage;
+import com.ssr.base.model.system.PrvUser;
+import com.ssr.base.service.dynamic.DynamicColumnManageService;
+import com.ssr.base.service.dynamic.DynamicTableManageService;
 import com.ssr.base.util.AjaxSupport;
 import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.annotation.Right;
 import com.ssr.base.util.constantenum.MysqlColumnTypeEnum;
 import com.ssr.base.util.constantenum.QueryConditionSymbolEnum;
 import com.ssr.base.web.controller.BaseController;
-import com.ssr.console.model.dynamic.DynamicColumnManage;
-import com.ssr.console.model.dynamic.DynamicTableManage;
-import com.ssr.console.model.system.PrvUser;
-import com.ssr.console.service.dynamic.DynamicColumnManageService;
-import com.ssr.console.service.dynamic.DynamicTableManageService;
 
 @Controller
 @RequestMapping("/dynamic")
@@ -74,6 +74,8 @@ public class DynamicColumnController extends BaseController {
 		mv.addObject("dynamicTableManage", dynamicTableManage);
 		mv.addObject("typesForMysql", MysqlColumnTypeEnum.values());
 		mv.addObject("queryConditionSymbols", QueryConditionSymbolEnum.values());
+		int nextFieldSerialNumber = dynamicColumnManageService.queryNextColumnFieldSerialNumber(id);
+		mv.addObject("fieldSerialNumber",nextFieldSerialNumber);
 		return mv;
 	}
 	

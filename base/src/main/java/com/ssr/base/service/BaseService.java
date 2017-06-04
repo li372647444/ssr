@@ -3,7 +3,7 @@ package com.ssr.base.service;
 /**
  * 所有Service基类接口,必须继承
  *
- * @author PengLian
+ * @author 
  */
 public interface BaseService {
 

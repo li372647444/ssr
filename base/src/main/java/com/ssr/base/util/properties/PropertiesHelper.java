@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  * Properties处理器
  *
- * @author PengLian
+ * @author 
  */
 public class PropertiesHelper {
 

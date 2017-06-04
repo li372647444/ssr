@@ -12,14 +12,14 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ssr.base.model.Function;
+import com.ssr.base.model.system.Function;
 import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.annotation.Right;
 
 /**
  * Session拦截器,默认处理所有需要登录的资源访问校验
  *
- * @author PengLian
+ * @author 
  */
 public class SessionInterceptor implements HandlerInterceptor {
 
@@ -64,9 +64,22 @@ public class SessionInterceptor implements HandlerInterceptor {
             	request.getRequestDispatcher("/deny").forward(request, response);
             	return false;
             }
-            else{
-            	return true;
+            if(r==null && url.indexOf("/dynamicManage")==0){
+            	/*String uri = request.getRequestURI();//eg. /console/dynamic/dynamicManage/news/list
+            	String[] url_s = uri.split("/");
+            	String tempS = "_PAGE";
+            	System.out.println("rp.method():"+rp.method());
+            	System.out.println("RequestMethod.POST:"+RequestMethod.POST);
+            	if(RequestMethod.POST.equals(rp.method())){
+            		tempS = "_POST";
+            	}
+            	String key = "SSR_B_DYNAMIC_"+url_s[4].toUpperCase()+"_"+url_s[5].toUpperCase()+tempS;
+            	if(!map.containsKey(key)){
+            		request.getRequestDispatcher("/deny").forward(request, response);
+            		return false;
+            	}*/
             }
+        	return true;
         }
         else{
         	response.sendRedirect(request.getContextPath() + "/login");

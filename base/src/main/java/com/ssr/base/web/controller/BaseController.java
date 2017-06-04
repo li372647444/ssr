@@ -21,7 +21,7 @@ import com.ssr.base.util.json.JsonToTypeReference;
 /**
  * 所有Controller基类,必须继承
  *
- * @author PengLian
+ * @author 
  */
 public abstract class BaseController {
 

@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 /**
  * httpUrl工具类
  * 
- * @author PengLian
+ * @author 
  *
  */
 public class HttpUrlHandler {

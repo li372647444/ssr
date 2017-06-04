@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * 验证码生成工具类
  *
- * @author PengLian
+ * @author 
  */
 public class VerifyCodeUtils {
 

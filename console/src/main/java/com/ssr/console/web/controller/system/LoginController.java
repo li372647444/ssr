@@ -19,25 +19,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ssr.base.model.Function;
-import com.ssr.base.model.Module;
+import com.ssr.base.model.system.Function;
+import com.ssr.base.model.system.Module;
+import com.ssr.base.model.system.PrvRoleFunction;
+import com.ssr.base.model.system.PrvUser;
+import com.ssr.base.model.system.PrvUserRole;
 import com.ssr.base.redis.RedisUtil;
+import com.ssr.base.service.system.RoleService;
+import com.ssr.base.service.system.UserService;
 import com.ssr.base.util.AjaxSupport;
 import com.ssr.base.util.CommonUtils;
 import com.ssr.base.util.SystemConfig;
 import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.security.Cryption;
 import com.ssr.base.web.controller.BaseController;
-import com.ssr.console.model.system.PrvRoleFunction;
-import com.ssr.console.model.system.PrvUser;
-import com.ssr.console.model.system.PrvUserRole;
-import com.ssr.console.service.system.RoleService;
-import com.ssr.console.service.system.UserService;
 
 /**
  * 登录controller
  *
- * @author PengLian
+ * @author 
  */
 @Controller
 public class LoginController extends BaseController {
@@ -179,7 +179,8 @@ public class LoginController extends BaseController {
         	return as;
 		}
 		if(!tPass.equals(inUser.getLoginPassword())){
-			inUser.setLoginErrorTimes(++max);
+			//TODO:
+			//inUser.setLoginErrorTimes(++max);
 			userService.saveUser(inUser, true);
 			as.setErrorMessage("用户密码错误!");
     		return as;

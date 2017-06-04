@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssr.base.mapper.system.PrvUserMapper" >
+  <resultMap id="BaseResultMap" type="com.ssr.base.model.system.PrvUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_password" property="loginPassword" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+    <result column="pwd_change" property="pwdChange" jdbcType="CHAR" />
+    <result column="login_error_times" property="loginErrorTimes" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectUserByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT id,login_name,name,create_time,login_time,login_ip,state,login_error_times FROM PRV_USER
+    <where>
+      <if test="loginName!=null and loginName!=''">
+        login_name like CONCAT('%',#{loginName},'%')
+      </if>
+      <if test="name!=null and name!=''">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        and login_time <![CDATA[ >= ]]> #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        and login_time <![CDATA[ <= ]]> #{endTime}
+      </if>
+    </where>
+    <if test="sort!=null and sort!=''">
+    	<if test="sort='loginName'">
+    		ORDER BY login_name ${order}
+    	</if>
+        <if test="sort=='name'">
+    		ORDER BY name ${order}
+    	</if>
+    	<if test="sort=='state'">
+    		ORDER BY state ${order}
+    	</if>
+    	<if test="sort=='createTime'">
+    		ORDER BY create_time ${order}
+    	</if>
+    	<if test="sort=='loginTime'">
+    		ORDER BY login_time ${order}
+    	</if>
+    	<if test="sort=='loginIp'">
+    		ORDER BY login_ip ${order}
+    	</if>
+    </if>
+  </select>
+</mapper>

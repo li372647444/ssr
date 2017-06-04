@@ -8,6 +8,10 @@ public class BaseServiceImpl implements BaseService {
 
     private Logger logger = Logger.getLogger(getClass());
 
+    public boolean isDebugEnabled(){
+    	return logger.isDebugEnabled();
+    }
+    
     public void trace(Object message) {
         logger.trace(message);
     }

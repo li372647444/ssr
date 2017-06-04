@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 /**
  * 通用加密解密工具
  *
- * @author PengLian
+ * @author 
  */
 public class Cryption {
 

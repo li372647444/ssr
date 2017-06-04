@@ -107,9 +107,9 @@
 										</div>
 									</div>
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="insertDefaultValue">新增时默认值<span style="color:red;">*</span></label>
+										<label class="col-md-2 control-label" for="insertDefaultValue">新增时默认值</label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" required id="insertDefaultValue" name="insertDefaultValue" placeholder="请输入新增时默认值">
+											<input type="text" class="form-control" id="insertDefaultValue" name="insertDefaultValue" placeholder="请输入新增时默认值">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -138,9 +138,9 @@
 										</div>
 									</div>
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="queryDefaultValue">查询时默认值<span style="color:red;">*</span></label>
+										<label class="col-md-2 control-label" for="queryDefaultValue">查询时默认值</label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" required id="queryDefaultValue" name="queryDefaultValue" placeholder="请输入查询时默认值">
+											<input type="text" class="form-control" id="queryDefaultValue" name="queryDefaultValue" placeholder="请输入查询时默认值">
 											<div class="form-control-focus">
 											</div>
 										</div>
@@ -257,6 +257,14 @@ function changeTypeForMysql(value){
 		disableAndRequiredControl("length",true,false);
 		disableAndRequiredControl("decimalPoint",true,false);
 		disableAndRequiredControl("enumValue",false,true);
+	}
+	//BLOB, TEXT, GEOMETRY or JSON column 'content' can't have a default value
+	if("text"==value || "blob"==value){
+		disableAndRequiredControl("insertDefaultValue",true,false);
+		$("#insertDefaultValue").parent().parent().hide();
+	} else{
+		disableAndRequiredControl("insertDefaultValue",false,false);
+		$("#insertDefaultValue").parent().parent().show();
 	}
 }
 

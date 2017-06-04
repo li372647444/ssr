@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 /**
  * 处理JSON转化时日期格式问题
  *
- * @author PengLian
+ * @author 
  */
 public class CustomDateTimeSerializer extends JsonSerializer<Date> {
 

@@ -58,8 +58,8 @@
 										<label class="col-md-2 control-label" for="isSystemField">是否为系统默认添加字段</label>
 										<div class="col-md-10">
 											<select class="form-control" id="isSystemField" name="isSystemField">
-												<option value="">请选择</option>
 												<option value="0">否</option>
+												<option value="">请选择</option>
 												<option value="1">是</option>
 											</select>
 											<div class="form-control-focus">
@@ -183,7 +183,10 @@ $(function() {
 				align: 'center',
 				sortable: false,
 				render: function(val,row,index){
-					return typesForMysql[val];
+					if(row.isQueryCondition==true){
+						return typesForMysql[val];
+					}
+					
 				}
 			},
 			{

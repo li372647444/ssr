@@ -15,7 +15,7 @@ import com.ssr.base.util.CommonUtils;
  * 反序列化json数据到对象
  * 为了提高json转化效率将mapper对象单例静态化,只有需要自己设置日期格式时才重新创建mapper对象
  *
- * @author PengLian
+ * @author 
  */
 public class JsonToTypeReference {
 

@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 /**
  * httpclient工具类
- * @author PengLian
+ * @author 
  *
  */
 public class HttpClientHandler {

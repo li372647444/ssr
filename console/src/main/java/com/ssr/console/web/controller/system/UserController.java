@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.ssr.base.model.system.PrvRole;
+import com.ssr.base.model.system.PrvUser;
+import com.ssr.base.model.system.PrvUserRole;
+import com.ssr.base.service.system.RoleService;
+import com.ssr.base.service.system.UserService;
 import com.ssr.base.util.AjaxSupport;
 import com.ssr.base.util.annotation.Right;
 import com.ssr.base.util.security.Cryption;
 import com.ssr.base.web.controller.BaseController;
-import com.ssr.console.model.system.PrvRole;
-import com.ssr.console.model.system.PrvUser;
-import com.ssr.console.model.system.PrvUserRole;
-import com.ssr.console.service.system.RoleService;
-import com.ssr.console.service.system.UserService;
 
 @Controller
 @RequestMapping("/system")

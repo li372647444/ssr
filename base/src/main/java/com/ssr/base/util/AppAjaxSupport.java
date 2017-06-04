@@ -3,7 +3,7 @@ package com.ssr.base.util;
 /**
  * app ajax请求返回结构封装
  *
- * @author PengLian
+ * @author 
  */
 public class AppAjaxSupport {
 	/**

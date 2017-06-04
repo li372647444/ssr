@@ -3,8 +3,8 @@ package com.ssr.base.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ssr.base.model.Function;
-import com.ssr.base.model.Module;
+import com.ssr.base.model.system.Function;
+import com.ssr.base.model.system.Module;
 
 public class SystemConstants {
 	public static final String SESSION_FUNCTION = "session_function";

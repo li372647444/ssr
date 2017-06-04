@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 数据层代码生成工具,根据需要自行修改配置文件
  *
- * @author PengLian
+ * @author 
  */
 public class CodeGenerator {
 

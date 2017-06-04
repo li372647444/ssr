@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.ssr.base.model.dynamic.DynamicTableManage;
+import com.ssr.base.model.system.PrvUser;
+import com.ssr.base.service.dynamic.DynamicTableManageService;
 import com.ssr.base.util.AjaxSupport;
 import com.ssr.base.util.SystemConstants;
 import com.ssr.base.util.annotation.Right;
 import com.ssr.base.web.controller.BaseController;
-import com.ssr.console.model.dynamic.DynamicTableManage;
-import com.ssr.console.model.system.PrvUser;
-import com.ssr.console.service.dynamic.DynamicTableManageService;
 
 @Controller
 @RequestMapping("/dynamic")

@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 /**
  * 全局工具,可根据需要自行添加
  *
- * @author PengLian
+ * @author 
  */
 public class CommonUtils {
 

@@ -18,7 +18,6 @@ import java.io.IOException;
  * 生成器会将验证码存入传入类型对应的SESSION域中
  * valcmcuteCode?type=login
  *
- * @author PengLian
  */
 public class ValidateCodeServlet extends HttpServlet {
 

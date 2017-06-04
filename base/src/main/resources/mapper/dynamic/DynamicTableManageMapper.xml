@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssr.base.mapper.dynamic.DynamicTableManageMapper" >
+  <resultMap id="BaseResultMap" type="com.ssr.base.model.dynamic.DynamicTableManage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="primary_key_column_id" property="primaryKeyColumnId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectDynamicTableManageByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT t.id,t.table_name,t.remark,t.primary_key_column_id,
+    	t.create_time,t.create_user_id,t.update_time,t.update_user_id,
+    	u1.name AS createUserName,
+    	u2.name AS updateUserName
+    FROM DYNAMIC_TABLE_MANAGE t
+    	LEFT JOIN PRV_USER u1 on u1.id = t.create_user_id
+    	LEFT JOIN PRV_USER u2 on u2.id = t.update_user_id
+    <where>
+      <if test="tableName!=null and tableName!=''">
+        t.table_name like CONCAT('%',#{tableName},'%')
+      </if>
+    </where>
+  </select>
+  
+  <update id="executeDDLSql" parameterType="java.lang.String">
+  	${sql}
+  </update>
+  
+  <select id="executeDMLSql" parameterType="java.lang.String" resultType="java.util.HashMap">
+  	${sql}
+  </select>
+  
+  <!-- 新增 -->
+  <insert id="executeInsertSql" parameterType="com.ssr.base.model.dynamic.DynamicManage" useGeneratedKeys="true" keyProperty="id">
+  	INSERT INTO ${tableName}
+  	<foreach collection="colunmnNames" item="colunmnName" index="index" open="(" separator="," close=")">
+  		${colunmnName}
+  	</foreach>
+  	VALUES
+  	<foreach collection="colunmnValues" item="colunmnValue" index="index" open="(" separator="," close=")">
+  		#{colunmnValue}
+  	</foreach>
+  </insert>
+  
+  <!-- 查询 -->
+  <select id="executeQuerySql" parameterType="com.ssr.base.model.dynamic.DynamicManage" resultType="java.util.HashMap">
+  	SELECT * FROM ${tableName}
+  	<if test="colunmnNames!=null and colunmnNames.size()>0 
+  		and conditionSymbols!=null and conditionSymbols.size()>0">
+  	<where>
+	  	<foreach collection="queryConditions" item="queryCondition" index="index" separator=" and ">
+	  		${queryCondition.colunmnName}
+	  		<if test="queryCondition.conditionSymbol=='EQUAL'">
+	  			= #{queryCondition.colunmnValue}
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='GREATERTHAN'">
+	  			<![CDATA[ > ]]> #{queryCondition.colunmnValue}
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='GREATEROREQUAL'">
+	  			<![CDATA[ >= ]]> #{queryCondition.colunmnValue}
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='LESSTHAN'">
+	  			<![CDATA[ < ]]> #{queryCondition.colunmnValue}
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='LESSTHANOREQUAL'">
+	  			<![CDATA[ <= ]]> #{queryCondition.colunmnValue}
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='LIKE'">
+	  			like  CONCAT('%',#{queryCondition.colunmnValue},'%')
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='LEFTLIKE'">
+	  			like  CONCAT('%',#{queryCondition.colunmnValue})
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='RIGHTLIKE'">
+	  			like  CONCAT(#{queryCondition.colunmnValue},%)
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='BETWEEN'">
+	  			BETWEEN  #{queryCondition.colunmnValue.get(0)} and #{queryCondition.colunmnValue.get(1)}
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='IN'">
+	  			IN  
+	  			<foreach collection="colunmnValues.get(index)" item="value" index="x" open="(" separator="," close=")">
+	  			#{value}
+	  			</foreach>
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='ISNULL'">
+	  			IS NULL  
+	  		</if>
+	  		<if test="queryCondition.conditionSymbol=='ISNOTNULL'">
+	  			IS NOT NULL  
+	  		</if>
+	  	</foreach>
+	</where>
+  	</if>
+  	ORDER BY id
+  </select>
+</mapper>

@@ -163,3 +163,23 @@ function toDecimal(x) {
 	f = Math.round(x * 100) / 100;
 	return f;
 }
+
+//是否禁用 必填 显示 控件
+function disableAndRequiredAndShowControl(buttonId,disable,required,show) {
+	$("#"+buttonId).val("");
+    if(disable){
+        $("#" + buttonId).attr("disabled", true);
+    } else {
+        $("#" + buttonId).attr("disabled", false);
+    }
+    if(required){
+        $("#" + buttonId).attr("required", true);
+    } else {
+        $("#" + buttonId).attr("required", false);
+    }
+    if(show){
+        $("#" + buttonId).parent().parent().show();
+    } else {
+        $("#" + buttonId).parent().parent().hide();
+    }
+}

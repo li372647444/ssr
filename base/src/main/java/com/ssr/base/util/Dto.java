@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Map工具类,根据key获取对应类型的值
  *
- * @author PengLian
+ * @author 
  */
 public class Dto {
 	
